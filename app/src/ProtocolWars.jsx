@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useRef, useMemo } from "react"
 import {
   AreaChart,
   Area,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -33,15 +35,15 @@ const PROTOCOL_BRAND_COLORS = {
   "lifinity":       "#00C2FF",  // Lifinity — cyan blue
   "openbook-dex":   "#F97316",  // OpenBook — orange
   // ── Lending ──────────────────────────────────────────────────────────────
-  "aave":           "#B6509E",  // Aave — purple-pink ghost
+  "aave":           "#7c3aed",  // Aave — vivid violet
   "compound":       "#00D395",  // Compound — green
   "compound-v2":    "#00D395",
   "compound-v3":    "#00D395",
-  "morpho":         "#1A74FB",  // Morpho — royal blue
+  "morpho":         "#006eff",  // Morpho — deep saturated blue
   "spark":          "#E95B2E",  // Spark — orange flame (SparkDAO)
-  "kamino":         "#39D0D8",  // Kamino — cyan-teal
-  "kamino-lend":    "#39D0D8",
-  "jupiter-lend":   "#C7A43A",  // Jupiter — gold
+  "kamino":         "#1e6eb5",  // Kamino — mid-blue (between deep navy and icy accent)
+  "kamino-lend":    "#1e6eb5",
+  "jupiter-lend":   "#39cdd1",  // Jupiter — teal (sampled from logo)
   "moonwell":       "#A855F7",  // Moonwell — purple moon
   "radiant":        "#3B82F6",  // Radiant Capital — blue
   "venus":          "#F0B90B",  // Venus — Binance-gold yellow
@@ -67,7 +69,7 @@ const PROTOCOL_BRAND_COLORS = {
   "lighter":                    "#6366F1",  // Lighter — indigo
   "lighter-perps":              "#6366F1",
   "lighter-v2":                 "#6366F1",
-  "jupiter-perpetual-exchange": "#C7A43A",  // Jupiter Perps — gold
+  "jupiter-perpetual-exchange": "#39cdd1",  // Jupiter Perps — teal (sampled from logo)
   "aevo":                       "#9B59FF",  // Aevo — purple
   "dydx":                       "#6966FF",  // dYdX — periwinkle indigo
   "vertex-protocol":            "#18A999",  // Vertex — teal
@@ -92,7 +94,7 @@ const PROTOCOL_BRAND_COLORS = {
   "mantle-lsd":     "#25C2A0",  // Mantle — teal
   "jito-liquid-staking":     "#97D230",  // Jito — lime green
   "marinade-liquid-staking": "#E05A2B",  // Marinade — burnt orange
-  "jupiter-staked-sol":      "#C89B3C",  // JupSOL — gold
+  "jupiter-staked-sol":      "#39cdd1",  // JupSOL — teal (sampled from logo)
   "sanctum-validator-lsts":  "#9333EA",  // Sanctum — purple
   "binance-staked-sol":      "#F0B90B",  // Binance — yellow
   "stader":         "#0A84FF",  // Stader — blue
@@ -210,6 +212,7 @@ const CHAIN_LOGOS = {
   Arbitrum: "https://icons.llama.fi/arbitrum.png",
   BSC:      "https://icons.llama.fi/bsc.jpg",
   MegaETH:  "https://icons.llamao.fi/icons/chains/rsz_megaeth.jpg",
+  Monad:    "https://icons.llamao.fi/icons/chains/rsz_monad.jpg",
 };
 
 // ─── Top 5 Lending protocols per chain — by TVL ─────────────────────────────
@@ -235,7 +238,7 @@ const LENDING_CHAINS = {
     slugs: ["venus", "aave", "alpaca-finance", "tranchess", "compound-v3"],
   },
   MegaETH: {
-    color: "#C026D3",
+    color: "#dfd9d9",
     slugs: ["aave-v3", "avon-megavault", "canonic", "quantus-lend"],
   },
 };
@@ -263,7 +266,7 @@ const DEX_CHAINS = {
     slugs: ["pancakeswap", "uniswap", "native", "curve-finance", "balancer"],
   },
   MegaETH: {
-    color: "#C026D3",
+    color: "#dfd9d9",
     slugs: ["kumbaya", "prism-dex", "sectorone-dlmm", "currentx-v3", "warpx-v3"],
   },
 };
@@ -1206,8 +1209,370 @@ function buildReasons(protocol, contextData) {
   return unique.slice(0, 5);
 }
 
+
+// ─── 1v1 Matchups ─────────────────────────────────────────────────────────────
+const MATCHUPS = [
+  {
+    id: "megaeth-monad",
+    left:  { slug: "MegaETH", label: "MegaETH", color: "#dfd9d9" },
+    right: { slug: "Monad",   label: "Monad",   color: "#836EF9" },
+    category: "L2 Speed War",
+    metrics: [
+      { key: "chainTvl",    label: "TVL",       dataType: "chainTvl"    },
+      { key: "chainVolume", label: "DEX Volume", dataType: "chainVolume" },
+    ],
+  },
+  {
+    id: "hyperliquid-aster",
+    left:  { slug: "hyperliquid-perps", label: "Hyperliquid", color: "#00e5a0" },
+    right: { slug: "aster-perps",       label: "Aster",       color: "#f97316" },
+    category: "Perps Supremacy",
+    metrics: [
+      { key: "openInterest", label: "Open Interest", dataType: "openInterest" },
+      { key: "perpsVolume",  label: "Volume",         dataType: "perpsVolume"  },
+      { key: "fees",         label: "Fees",           dataType: "fees"         },
+    ],
+  },
+  {
+    id: "uniswap-fluid",
+    left:  { slug: "uniswap", label: "Uniswap", color: "#FF007A" },
+    right: { slug: "fluid",   label: "Fluid",   color: "#4C8FFF" },
+    category: "DEX Dominance",
+    metrics: [
+      { key: "volume", label: "DEX Volume", dataType: "volume" },
+    ],
+  },
+  {
+    id: "kamino-jupiter",
+    left:  { slug: "kamino-lend",  label: "Kamino",      color: "#1e6eb5" },
+    right: { slug: "jupiter-lend", label: "JupiterLend", color: "#39cdd1" },
+    category: "Solana Lending",
+    metrics: [
+      { key: "tvl",      label: "TVL",          dataType: "tvl"      },
+      { key: "borrowed", label: "Active Loans", dataType: "borrowed" },
+    ],
+  },
+  {
+    id: "aave-morpho",
+    left:  { slug: "aave",   label: "Aave",   color: "#7c3aed" },
+    right: { slug: "morpho", label: "Morpho", color: "#006eff" },
+    category: "Lending Giants",
+    metrics: [
+      { key: "tvl",      label: "TVL",          dataType: "tvl"      },
+      { key: "borrowed", label: "Active Loans", dataType: "borrowed" },
+    ],
+  },
+];
+
+// ─── MatchupBattle: one self-contained battle card with all its charts ─────────
+function MatchupBattle({ matchup, timeRange }) {
+  const [metricData, setMetricData]       = useState({});
+  const [metricLoading, setMetricLoading] = useState(() => {
+    const init = {};
+    matchup.metrics.forEach(m => { init[m.key] = true; });
+    return init;
+  });
+  const [logos, setLogos]                 = useState({});
+  const fetchIdRef = useRef(0);
+
+  useEffect(() => {
+    const fetchId = ++fetchIdRef.current;
+    setMetricData({});
+    const init = {};
+    matchup.metrics.forEach(m => { init[m.key] = true; });
+    setMetricLoading(init);
+    const cutoff = getTodayTs() - timeRange * 86400;
+    const { left, right } = matchup;
+
+    matchup.metrics.forEach(async metric => {
+      try {
+        const [lr, rr] = await Promise.all([
+          fetchSlugData(left.slug,  metric.dataType, cutoff, null).catch(() => null),
+          fetchSlugData(right.slug, metric.dataType, cutoff, null).catch(() => null),
+        ]);
+        if (fetchId !== fetchIdRef.current) return;
+        if (lr?.logo) setLogos(p => ({ ...p, [left.slug]:  lr.logo }));
+        if (rr?.logo) setLogos(p => ({ ...p, [right.slug]: rr.logo }));
+        if (!lr?.series?.length || !rr?.series?.length) {
+          setMetricLoading(prev => ({ ...prev, [metric.key]: false }));
+          return;
+        }
+        const allDates = new Set([...lr.series.map(d => d.date), ...rr.series.map(d => d.date)]);
+        const dates = [...allDates].filter(d => d >= cutoff).sort((a, b) => a - b);
+        const lm = {}, rm = {};
+        lr.series.forEach(d => { lm[d.date] = d.value; });
+        rr.series.forEach(d => { rm[d.date] = d.value; });
+        let ll = null, rl = null;
+        const chart = dates.map(ts => {
+          if (lm[ts] != null) ll = lm[ts];
+          if (rm[ts] != null) rl = rm[ts];
+          const lv = ll ?? 0, rv = rl ?? 0, tot = lv + rv;
+          if (tot === 0) return null;
+          return { label: formatDate(ts), ts, [left.slug]: parseFloat(((lv / tot) * 100).toFixed(2)), [right.slug]: parseFloat(((rv / tot) * 100).toFixed(2)) };
+        }).filter(Boolean);
+        setMetricData(prev => ({ ...prev, [metric.key]: chart }));
+      } catch {}
+      finally { if (fetchId === fetchIdRef.current) setMetricLoading(prev => ({ ...prev, [metric.key]: false })); }
+    });
+  }, [matchup.id, timeRange]);
+
+  // Overall winner from first metric
+  const fd = metricData[matchup.metrics[0]?.key] || [];
+  const lr = fd[fd.length - 1];
+  const lOv = lr?.[matchup.left.slug], rOv = lr?.[matchup.right.slug];
+  const overallWinner = lOv != null && rOv != null ? (lOv > rOv ? "left" : lOv < rOv ? "right" : "tie") : null;
+
+  return (
+    <div style={{ marginBottom: 72 }}>
+      {/* ── Fight Banner ── */}
+      <div style={{
+        position: "relative", overflow: "hidden", borderRadius: 16, marginBottom: 4,
+        background: `linear-gradient(110deg, ${matchup.left.color}20 0%, #0d0c09 35%, #0d0c09 65%, ${matchup.right.color}20 100%)`,
+        border: "1px solid rgba(255,255,255,0.05)",
+        boxShadow: `inset 0 0 60px rgba(0,0,0,0.6)`,
+        padding: "28px 32px",
+      }}>
+        {/* Diagonal slash overlay */}
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "linear-gradient(108deg, transparent 47%, rgba(240,160,32,0.06) 50%, transparent 53%)",
+        }} />
+
+        {/* Category pill */}
+        <div style={{ textAlign: "center", marginBottom: 22 }}>
+          <span style={{
+            display: "inline-block", fontFamily: "'Orbitron',sans-serif",
+            fontSize: 9, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase",
+            color: "#f0a020", padding: "4px 18px", borderRadius: 999,
+            border: "1px solid rgba(240,160,32,0.3)",
+            background: "rgba(240,160,32,0.07)",
+          }}>{matchup.category}</span>
+        </div>
+
+        {/* Fighters */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {/* LEFT */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              {logos[matchup.left.slug] ? (
+                <img src={logos[matchup.left.slug]} alt="" style={{
+                  width: 52, height: 52, borderRadius: 13, flexShrink: 0,
+                  border: `2px solid ${matchup.left.color}${overallWinner === "left" ? "cc" : "44"}`,
+                  boxShadow: overallWinner === "left" ? `0 0 28px ${matchup.left.color}55, 0 0 60px ${matchup.left.color}22` : "none",
+                  transition: "box-shadow 0.6s",
+                }} />
+              ) : (
+                <div style={{ width: 52, height: 52, borderRadius: 13, background: matchup.left.color + "22", border: `2px solid ${matchup.left.color}44`, flexShrink: 0 }} />
+              )}
+              <div>
+                <div style={{
+                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 20, letterSpacing: 1,
+                  color: matchup.left.color,
+                  textShadow: overallWinner === "left" ? `0 0 28px ${matchup.left.color}88` : "none",
+                }}>{matchup.left.label}</div>
+                {overallWinner === "left" && (
+                  <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, color: matchup.left.color, marginTop: 2 }}>⚡ DOMINATING</div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* VS */}
+          <div style={{ flexShrink: 0, textAlign: "center", paddingBottom: 4 }}>
+            <div style={{
+              fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 48, letterSpacing: 6, lineHeight: 1,
+              background: "linear-gradient(180deg, #ffd966 0%, #f0a020 45%, #c96a10 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              filter: "drop-shadow(0 0 24px rgba(240,160,32,0.8)) drop-shadow(0 2px 8px rgba(0,0,0,0.9))",
+            }}>VS</div>
+          </div>
+
+          {/* RIGHT */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexDirection: "row-reverse" }}>
+              {logos[matchup.right.slug] ? (
+                <img src={logos[matchup.right.slug]} alt="" style={{
+                  width: 52, height: 52, borderRadius: 13, flexShrink: 0,
+                  border: `2px solid ${matchup.right.color}${overallWinner === "right" ? "cc" : "44"}`,
+                  boxShadow: overallWinner === "right" ? `0 0 28px ${matchup.right.color}55, 0 0 60px ${matchup.right.color}22` : "none",
+                  transition: "box-shadow 0.6s",
+                }} />
+              ) : (
+                <div style={{ width: 52, height: 52, borderRadius: 13, background: matchup.right.color + "22", border: `2px solid ${matchup.right.color}44`, flexShrink: 0 }} />
+              )}
+              <div style={{ textAlign: "right" }}>
+                <div style={{
+                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 20, letterSpacing: 1,
+                  color: matchup.right.color,
+                  textShadow: overallWinner === "right" ? `0 0 28px ${matchup.right.color}88` : "none",
+                }}>{matchup.right.label}</div>
+                {overallWinner === "right" && (
+                  <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, color: matchup.right.color, marginTop: 2 }}>DOMINATING ⚡</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Metric charts stacked ── */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        {matchup.metrics.map((metric, mi) => {
+          const data      = metricData[metric.key] || [];
+          const isLoading = metricLoading[metric.key];
+          const last = data[data.length - 1];
+          const lShare = last?.[matchup.left.slug]  ?? null;
+          const rShare = last?.[matchup.right.slug] ?? null;
+          const mw = lShare != null ? (lShare > rShare ? "left" : lShare < rShare ? "right" : "tie") : null;
+
+          return (
+            <div key={metric.key} style={{
+              background: "#0f0e0b",
+              borderLeft: "1px solid #1a160e", borderRight: "1px solid #1a160e",
+              borderBottom: mi === matchup.metrics.length - 1 ? "1px solid #1a160e" : "none",
+              borderTop: "1px solid #1a160e",
+              borderRadius: mi === matchup.metrics.length - 1 ? "0 0 12px 12px" : 0,
+              overflow: "hidden",
+            }}>
+              {/* Metric header */}
+              <div style={{ padding: "10px 20px", borderBottom: "1px solid #141210", display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{ color: "#5a4530", fontSize: 9, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase" }}>{metric.label}</span>
+                {!isLoading && lShare != null && (
+                  <div style={{ marginLeft: "auto", display: "flex", alignItems: "baseline", gap: 10 }}>
+                    <span style={{
+                      fontFamily: "'Orbitron',sans-serif", fontWeight: 900,
+                      fontSize: mw === "left" ? 20 : 15,
+                      color: matchup.left.color,
+                      filter: mw === "left" ? `drop-shadow(0 0 10px ${matchup.left.color}66)` : "none",
+                      transition: "font-size 0.4s",
+                    }}>{lShare.toFixed(1)}%</span>
+                    <span style={{ color: "#6b5a3a", fontSize: 11, fontWeight: 900 }}>·</span>
+                    <span style={{
+                      fontFamily: "'Orbitron',sans-serif", fontWeight: 900,
+                      fontSize: mw === "right" ? 20 : 15,
+                      color: matchup.right.color,
+                      filter: mw === "right" ? `drop-shadow(0 0 10px ${matchup.right.color}66)` : "none",
+                      transition: "font-size 0.4s",
+                    }}>{rShare.toFixed(1)}%</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Dominance bar */}
+              {!isLoading && lShare != null && (
+                <div style={{ height: 3, display: "flex" }}>
+                  <div style={{ width: `${lShare}%`, background: `linear-gradient(90deg, ${matchup.left.color}88, ${matchup.left.color})`, transition: "width 1s cubic-bezier(.4,0,.2,1)" }} />
+                  <div style={{ flex: 1, background: `linear-gradient(90deg, ${matchup.right.color}, ${matchup.right.color}88)` }} />
+                </div>
+              )}
+
+              {/* Chart */}
+              <div style={{ padding: "10px 8px 12px", position: "relative" }}>
+                {/* Watermark */}
+                <div style={{
+                  position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                  pointerEvents: "none", zIndex: 1,
+                }}>
+                  <span style={{
+                    fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 3,
+                    textTransform: "uppercase", color: "rgba(240,160,32,0.07)",
+                    userSelect: "none",
+                  }}>Flippening</span>
+                </div>
+                {isLoading ? (
+                  <div style={{ height: 190, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ color: "#6b5a3a", fontSize: 10, letterSpacing: 3, fontFamily: "'Orbitron',sans-serif" }}>LOADING…</span>
+                  </div>
+                ) : data.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={190}>
+                    <AreaChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: -28 }}>
+                      <defs>
+                        <linearGradient id={`grad-battle-${matchup.id}-${metric.key}-l`} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%"  stopColor={matchup.left.color}  stopOpacity={0.9} />
+                          <stop offset="95%" stopColor={matchup.left.color}  stopOpacity={0.7} />
+                        </linearGradient>
+                        <linearGradient id={`grad-battle-${matchup.id}-${metric.key}-r`} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%"  stopColor={matchup.right.color} stopOpacity={0.9} />
+                          <stop offset="95%" stopColor={matchup.right.color} stopOpacity={0.7} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1a160e" vertical={false} />
+                      <XAxis dataKey="label" tick={{ fill: "#6b5a3a", fontSize: 10 }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+                      <YAxis tick={{ fill: "#6b5a3a", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={v => `${v.toFixed(0)}%`} domain={[0, 100]} />
+                      <Tooltip
+                        formatter={(v, k) => [`${v.toFixed(2)}%`, k === matchup.left.slug ? matchup.left.label : matchup.right.label]}
+                        contentStyle={{ background: "#0f0e0b", border: "1px solid #221e16", borderRadius: 6, fontSize: 12 }}
+                        cursor={{ stroke: "#221e16", strokeWidth: 1 }}
+                      />
+                      <Area type="monotone" dataKey={matchup.left.slug}  stackId="1" stroke={matchup.left.color}  strokeWidth={1} fill={`url(#grad-battle-${matchup.id}-${metric.key}-l)`} dot={false} activeDot={{ r: 4, strokeWidth: 0, fill: matchup.left.color }}  isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                      <Area type="monotone" dataKey={matchup.right.slug} stackId="1" stroke={matchup.right.color} strokeWidth={1} fill={`url(#grad-battle-${matchup.id}-${metric.key}-r)`} dot={false} activeDot={{ r: 4, strokeWidth: 0, fill: matchup.right.color }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div style={{ height: 190, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ color: "#6b5a3a", fontSize: 10, letterSpacing: 3, fontFamily: "'Orbitron',sans-serif" }}>NO DATA</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── OneVOneView: full scrollable arena ────────────────────────────────────────
+function OneVOneView({ onBack }) {
+  const [timeRange, setTimeRange] = useState(90);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#0c0b08", color: "#f0e6cb", fontFamily: "'Space Grotesk','Inter',-apple-system,sans-serif" }}>
+      {/* Sticky header */}
+      <div style={{ background: "rgba(10,9,7,0.97)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(240,160,32,0.15)", padding: "0 20px", position: "sticky", top: 0, zIndex: 100 }}>
+        <div style={{ maxWidth: 960, margin: "0 auto", minHeight: 60, display: "flex", alignItems: "center", gap: 16 }}>
+          <button onClick={onBack} style={{ background: "transparent", border: "1px solid #221e16", borderRadius: 7, color: "#a08060", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
+            ← Back
+          </button>
+          <span style={{ fontFamily: "'Orbitron',sans-serif", color: "#f0a020", fontSize: 13, fontWeight: 900, letterSpacing: 4 }}>1v1 ARENA</span>
+          <div style={{ marginLeft: "auto", display: "flex", gap: 4 }}>
+            {TIME_RANGES.map(r => (
+              <button key={r.days} onClick={() => setTimeRange(r.days)} style={{
+                background: timeRange === r.days ? "#f0a020" : "transparent",
+                border: `1px solid ${timeRange === r.days ? "#f0a020" : "#221e16"}`,
+                borderRadius: 5, color: timeRange === r.days ? "#0c0a06" : "#5a4a30",
+                padding: "4px 11px", cursor: "pointer", fontSize: 11, fontWeight: 600, fontFamily: "inherit",
+              }}>{r.label}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "52px 20px 100px" }}>
+        {/* Arena hero */}
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <div style={{
+            fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 68,
+            background: "linear-gradient(180deg, #ffd966 0%, #f0a020 45%, #b85a10 100%)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            filter: "drop-shadow(0 0 40px rgba(240,160,32,0.45)) drop-shadow(0 6px 24px rgba(0,0,0,0.9))",
+            lineHeight: 1, letterSpacing: 12,
+          }}>ARENA</div>
+          <div style={{ color: "#6b5a3a", fontSize: 10, letterSpacing: 5, textTransform: "uppercase", marginTop: 10, fontFamily: "'Orbitron',sans-serif" }}>
+            {MATCHUPS.length} ACTIVE BATTLES · MARKET SHARE DOMINANCE
+          </div>
+        </div>
+
+        {MATCHUPS.map(m => <MatchupBattle key={m.id} matchup={m} timeRange={timeRange} />)}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function ProtocolWars() {
+  const [view, setView] = useState("main");        // "main" | "1v1"
   const [activeSegment, setActiveSegment] = useState("DEX");
   const [activeRivalry, setActiveRivalry] = useState(0);
   const [dexChain, setDexChain] = useState("Ethereum");
@@ -1677,6 +2042,11 @@ export default function ProtocolWars() {
 
   const aiInsights = generateAnalysis(chartData, visibleProtocols);
 
+  // ── 1v1 view routing ──
+  if (view === "1v1") {
+    return <OneVOneView onBack={() => setView("main")} />;
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: "radial-gradient(ellipse 85% 50% at 50% -2%, rgba(240,160,32,0.10) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 98% 98%, rgba(234,88,12,0.08) 0%, transparent 55%), radial-gradient(ellipse 35% 30% at 2% 60%, rgba(251,191,36,0.04) 0%, transparent 50%) #0c0b08", color: "#f0e6cb", fontFamily: "'Space Grotesk','Inter',-apple-system,sans-serif", padding: "0 0 60px" }}>
       <style>{`
@@ -1754,22 +2124,14 @@ export default function ProtocolWars() {
             <div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
                 <span style={{
-                  fontFamily: "'Orbitron', 'Bebas Neue', sans-serif",
+                  fontFamily: "'Syne', 'Orbitron', sans-serif",
                   fontSize: 26, fontWeight: 900,
                   background: "linear-gradient(90deg, #fbbf24 0%, #f0a020 60%, #e05d20 100%)",
                   WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                  letterSpacing: 3, textTransform: "uppercase",
+                  letterSpacing: 0.5,
                   filter: "drop-shadow(0 0 10px rgba(240,160,32,0.45))",
                 }}>
-                  Flip
-                </span>
-                <span style={{
-                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                  fontSize: 22, fontWeight: 400,
-                  color: "#5a3e18",
-                  letterSpacing: 7, textTransform: "uppercase",
-                }}>
-                  Terminal
+                  Flippening.io
                 </span>
               </div>
               <div style={{ color: "#7a6248", fontSize: 9, letterSpacing: 1.5, textTransform: "uppercase", marginTop: 1, fontStyle: "italic" }}>
@@ -1800,6 +2162,23 @@ export default function ProtocolWars() {
               }}>{seg.label}</button>
             ))}
           </div>
+
+          {/* 1v1 button */}
+          <button onClick={() => setView("1v1")} style={{
+            fontFamily: "'Orbitron', sans-serif",
+            fontWeight: 900,
+            fontSize: 12,
+            letterSpacing: 2,
+            padding: "7px 18px",
+            borderRadius: 8,
+            cursor: "pointer",
+            background: "linear-gradient(135deg, rgba(240,60,60,0.18) 0%, rgba(234,88,12,0.12) 100%)",
+            border: "1px solid rgba(239,68,68,0.6)",
+            color: "#f87171",
+            boxShadow: "0 0 14px rgba(239,68,68,0.2), inset 0 1px 0 rgba(255,255,255,0.04)",
+            transition: "all .18s",
+            flexShrink: 0,
+          }}>1v1</button>
 
           {/* Credit badge */}
           <a
@@ -2037,6 +2416,18 @@ export default function ProtocolWars() {
               No data found for selected protocols in this range.
             </div>
           ) : (
+            <div style={{ position: "relative" }}>
+              {/* Watermark */}
+              <div style={{
+                position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                pointerEvents: "none", zIndex: 1,
+              }}>
+                <span style={{
+                  fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 2,
+                  textTransform: "uppercase", color: "rgba(240,160,32,0.07)",
+                  userSelect: "none",
+                }}>Flippening</span>
+              </div>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={displayData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <defs>
@@ -2086,6 +2477,7 @@ export default function ProtocolWars() {
                 })}
               </AreaChart>
             </ResponsiveContainer>
+            </div>
           )}
         </div>
 
