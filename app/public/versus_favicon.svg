@@ -1,0 +1,22 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;display=swap');
+      .wm { font-family: 'Bebas Neue', 'Arial Black', sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="#0C0E1A"/>
+
+  <polygon points="0,0 36,0 28,64 0,64"   fill="#FF2060" opacity="0.12"/>
+  <polygon points="36,0 64,0 64,64 28,64" fill="#4B7BFF" opacity="0.12"/>
+
+  <polygon points="0,0 36,0 28,64 0,64"   fill="none" stroke="#FF2060" stroke-width="0.8" stroke-opacity="0.4"/>
+  <polygon points="36,0 64,0 64,64 28,64" fill="none" stroke="#4B7BFF" stroke-width="0.8" stroke-opacity="0.4"/>
+
+  <text class="wm" x="14" y="44" text-anchor="middle" font-size="42" fill="#FF2060" opacity="0.95" font-family="'Bebas Neue', 'Arial Black', sans-serif">A</text>
+  <text class="wm" x="50" y="44" text-anchor="middle" font-size="42" fill="#4B7BFF" opacity="0.95" font-family="'Bebas Neue', 'Arial Black', sans-serif">B</text>
+
+  <rect x="22" y="8" width="20" height="20" rx="4" fill="#0C0E1A"/>
+  <text class="wm" x="32" y="24" text-anchor="middle" font-size="18" fill="#ffffff" letter-spacing="0.5" font-family="'Bebas Neue', 'Arial Black', sans-serif">VS</text>
+</svg>
