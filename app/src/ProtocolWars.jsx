@@ -1680,7 +1680,7 @@ export default function ProtocolWars() {
   return (
     <div style={{ minHeight: "100vh", background: "radial-gradient(ellipse 85% 50% at 50% -2%, rgba(240,160,32,0.10) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 98% 98%, rgba(234,88,12,0.08) 0%, transparent 55%), radial-gradient(ellipse 35% 30% at 2% 60%, rgba(251,191,36,0.04) 0%, transparent 50%) #0c0b08", color: "#f0e6cb", fontFamily: "'Space Grotesk','Inter',-apple-system,sans-serif", padding: "0 0 60px" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
         html, body { background-color: #0c0b08 !important; background-image: radial-gradient(ellipse 85% 50% at 50% -2%, rgba(240,160,32,0.10) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 98% 98%, rgba(234,88,12,0.08) 0%, transparent 55%) !important; background-attachment: fixed !important; margin: 0; }
         * { box-sizing: border-box; }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
@@ -1752,17 +1752,28 @@ export default function ProtocolWars() {
           <div style={{ display: "flex", alignItems: "center", gap: 11, flexShrink: 0 }}>
             <img src="/versus_favicon.svg" alt="VS" style={{ width: 34, height: 34, borderRadius: 9, flexShrink: 0, filter: "drop-shadow(0 0 8px rgba(240,160,32,0.5))" }} />
             <div>
-              <div style={{
-                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                fontSize: 24, fontWeight: 400,
-                background: "linear-gradient(90deg, #fbbf24 0%, #f0a020 50%, #e05d20 100%)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                letterSpacing: 5, textTransform: "uppercase",
-              }}>
-                Protocol Wars
+              <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                <span style={{
+                  fontFamily: "'Orbitron', 'Bebas Neue', sans-serif",
+                  fontSize: 26, fontWeight: 900,
+                  background: "linear-gradient(90deg, #fbbf24 0%, #f0a020 60%, #e05d20 100%)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                  letterSpacing: 3, textTransform: "uppercase",
+                  filter: "drop-shadow(0 0 10px rgba(240,160,32,0.45))",
+                }}>
+                  Flip
+                </span>
+                <span style={{
+                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                  fontSize: 22, fontWeight: 400,
+                  color: "#5a3e18",
+                  letterSpacing: 7, textTransform: "uppercase",
+                }}>
+                  Terminal
+                </span>
               </div>
-              <div style={{ color: "#7a6248", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", marginTop: 1 }}>
-                DeFi Intelligence
+              <div style={{ color: "#7a6248", fontSize: 9, letterSpacing: 1.5, textTransform: "uppercase", marginTop: 1, fontStyle: "italic" }}>
+                Watch your favorite protocol get flipped
               </div>
             </div>
           </div>
