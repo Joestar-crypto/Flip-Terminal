@@ -3129,7 +3129,7 @@ export default function ProtocolWars() {
   return (
     <div className="arena-bg" style={{ color: "#f0e6cb", fontFamily: "'Space Grotesk','Inter',-apple-system,sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@600&family=Orbitron:wght@900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
         html, body { background-color: #0e0e0e !important; background-image: none !important; margin: 0; }
         * { box-sizing: border-box; }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
@@ -3138,8 +3138,14 @@ export default function ProtocolWars() {
         @keyframes loadbar { 0%{left:-45%;width:45%} 100%{left:100%;width:45%} }
         @keyframes flicker { 0%,100%{opacity:1;text-shadow:0 0 8px #ff9500,0 0 20px #ff5500,0 0 40px #ff2200} 25%{opacity:.9;text-shadow:0 0 12px #ffb700,0 0 30px #ff6600,0 0 60px #ff3300} 50%{opacity:1;text-shadow:0 0 6px #ff8800,0 0 18px #ff4800,0 0 36px #ff1500} 75%{opacity:.95;text-shadow:0 0 10px #ffaa00,0 0 25px #ff5800,0 0 50px #ff2800} }
         @keyframes flamePulse { 0%,100%{box-shadow:0 0 12px #ff6600,0 0 28px #ff3300,0 0 50px rgba(255,80,0,0.4),inset 0 0 15px rgba(255,120,0,0.15)} 50%{box-shadow:0 0 20px #ff8800,0 0 45px #ff4400,0 0 80px rgba(255,100,0,0.5),inset 0 0 25px rgba(255,140,0,0.2)} }
-        .btn-1v1 { animation: flamePulse 1.8s ease-in-out infinite; }
-        .btn-1v1 span { animation: flicker 1.4s ease-in-out infinite; }
+        .btn-arena{display:inline-flex;align-items:stretch;height:52px;border-radius:12px;background:#ffffff;border:none;cursor:pointer;overflow:hidden;transition:transform 0.18s,box-shadow 0.18s;box-shadow:0 0 0 0 rgba(255,255,255,0);padding:0;}
+        .btn-arena:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,255,255,0.12);}
+        .btn-arena:active{transform:scale(0.97);}
+        .btn-arena-main{display:flex;flex-direction:column;justify-content:center;padding:0 24px;height:100%;border-right:1px solid rgba(0,0,0,0.1);}
+        .btn-arena-top{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.16em;color:#0d0f18;line-height:1;}
+        .btn-arena-bot{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-top:2px;}
+        .btn-arena-side{display:flex;align-items:center;justify-content:center;padding:0 16px;height:100%;background:rgba(0,0,0,0.06);font-size:18px;color:rgba(0,0,0,0.4);font-weight:300;line-height:1;transition:background 0.18s;}
+        .btn-arena:hover .btn-arena-side{background:rgba(0,0,0,0.1);}
         ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-track{background:#0e0e0e}
         ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
         input{outline:none} input:focus{border-color:rgba(255,255,255,0.4) !important}
@@ -3217,19 +3223,13 @@ export default function ProtocolWars() {
         }}>
           {/* 1v1 button — top of sidebar */}
           <div style={{ padding: "16px 12px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
-            <button onClick={() => setView("1v1")} className="btn-1v1" style={{
-              width: "100%",
-              fontFamily: "'Orbitron', sans-serif",
-              fontWeight: 900, fontSize: 17, letterSpacing: 5,
-              padding: "13px 0", borderRadius: 8, cursor: "pointer",
-              background: "linear-gradient(160deg, #1a0800 0%, #2d0e00 40%, #1a0500 100%)",
-              border: "1px solid rgba(255,120,0,0.7)",
-              color: "#ff9500",
-              transition: "all .18s",
-              marginBottom: 10,
-              position: "relative",
-              overflow: "visible",
-            }}><span>1V1</span></button>
+            <button onClick={() => setView("1v1")} className="btn-arena" style={{ width: "100%", marginBottom: 10 }}>
+              <div className="btn-arena-main">
+                <div className="btn-arena-top">1V1 ARENA</div>
+                <div className="btn-arena-bot">Protocol battles</div>
+              </div>
+              <div className="btn-arena-side">→</div>
+            </button>
 
             {/* Search bar */}
             <div ref={searchRef} style={{ position: "relative" }}>
