@@ -2267,11 +2267,11 @@ function BattleCard({ matchup, isActive, onClick }) {
 
   const lift = isActive || hovered;
 
-  const ProtoSide = ({ proto, pct }) => {
+  const ProtoSide = ({ proto, pct, flexVal = 1 }) => {
     const logo = logos[proto.slug];
     const initials = proto.label.replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase();
     return (
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 3, padding: "0 10px", overflow: "hidden" }}>
+      <div style={{ flex: flexVal, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 3, padding: "0 10px", overflow: "hidden", transition: "flex 0.4s ease" }}>
         <div style={{ width: 24, height: 24, borderRadius: 6, overflow: "hidden", background: proto.color + "2e", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           {logo
             ? <img src={logo} alt={proto.label} style={{ width: 24, height: 24, objectFit: "contain", display: "block" }} />
@@ -2303,8 +2303,8 @@ function BattleCard({ matchup, isActive, onClick }) {
     >
       {/* Color atmosphere split */}
       <div style={{ position: "absolute", inset: 0, display: "flex", pointerEvents: "none" }}>
-        <div style={{ flex: 1, background: matchup.left.color,  opacity: lift ? 0.28 : 0.18, transition: "opacity .2s" }} />
-        <div style={{ flex: 1, background: matchup.right.color, opacity: lift ? 0.28 : 0.18, transition: "opacity .2s" }} />
+        <div style={{ flex: shares?.left ?? 1, background: matchup.left.color,  opacity: lift ? 0.28 : 0.18, transition: "flex 0.4s ease, opacity .2s" }} />
+        <div style={{ flex: shares?.right ?? 1, background: matchup.right.color, opacity: lift ? 0.28 : 0.18, transition: "flex 0.4s ease, opacity .2s" }} />
       </div>
 
       {/* Category tag */}
@@ -2314,15 +2314,15 @@ function BattleCard({ matchup, isActive, onClick }) {
 
       {/* Content row */}
       <div style={{ flex: 1, display: "flex", alignItems: "center", position: "relative", paddingTop: 14, paddingBottom: 2 }}>
-        <ProtoSide proto={matchup.left}  pct={shares?.left} />
+        <ProtoSide proto={matchup.left}  pct={shares?.left}  flexVal={shares?.left  ?? 50} />
 
         {/* Center divider + VS pill */}
         <div style={{ position: "relative", flexShrink: 0, alignSelf: "stretch", display: "flex", alignItems: "center", width: 0 }}>
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", width: 1, background: "rgba(255,255,255,0.08)", transform: "translateX(-50%)" }} />
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: "50%", width: 1, background: "rgba(255,255,255,0.15)", transform: "translateX(-50%)" }} />
           <div style={{ position: "relative", zIndex: 1, background: "#111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 4, padding: "2px 5px", fontSize: 10, color: "rgba(255,255,255,0.55)", fontWeight: 700, letterSpacing: 1, transform: "translateX(-50%)" }}>VS</div>
         </div>
 
-        <ProtoSide proto={matchup.right} pct={shares?.right} />
+        <ProtoSide proto={matchup.right} pct={shares?.right} flexVal={shares?.right ?? 50} />
       </div>
 
       {/* Bottom dominance bar */}
@@ -2341,7 +2341,7 @@ function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId }) {
   return (
     <>
       {/* Sticky header */}
-      <div style={{ background: "rgba(10,10,10,0.92)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px", position: "sticky", top: 0, zIndex: 100 }}>
+      <div style={{ background: "rgba(10,10,10,0.92)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px" }}>
         <div style={{ maxWidth: 960, margin: "0 auto", minHeight: 60, display: "flex", alignItems: "center", gap: 16 }}>
           <button onClick={onBack} style={{ background: "#0e0e0e", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 7, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
             ← Back
@@ -3142,8 +3142,8 @@ export default function ProtocolWars() {
         .btn-arena:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,255,255,0.12);}
         .btn-arena:active{transform:scale(0.97);}
         .btn-arena-main{display:flex;flex-direction:column;justify-content:center;padding:0 24px;height:100%;border-right:1px solid rgba(0,0,0,0.1);}
-        .btn-arena-top{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.16em;color:#0d0f18;line-height:1;}
-        .btn-arena-bot{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-top:2px;}
+        .btn-arena-top{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.12em;color:#0d0f18;line-height:1;}
+        .btn-arena-bot{font-family:'Inter',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-top:3px;}
         .btn-arena-side{display:flex;align-items:center;justify-content:center;padding:0 16px;height:100%;background:rgba(0,0,0,0.06);font-size:18px;color:rgba(0,0,0,0.4);font-weight:300;line-height:1;transition:background 0.18s;}
         .btn-arena:hover .btn-arena-side{background:rgba(0,0,0,0.1);}
         ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-track{background:#0e0e0e}
@@ -3196,7 +3196,6 @@ export default function ProtocolWars() {
           padding: "0 20px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
           background: "rgba(6,6,6,0.99)",
-          position: "sticky", top: 0, zIndex: 50,
         }}>
           <FlipIndexTitle />
           <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 9, letterSpacing: 1.2, textTransform: "uppercase", fontStyle: "italic", marginLeft: 4 }}>Watch your favorite protocol get flipped</span>
@@ -3210,14 +3209,14 @@ export default function ProtocolWars() {
           </div>
         </div>
 
-        <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <div style={{ flex: 1, display: "flex" }}>
 
         {/* ── Sidebar ── */}
         <nav style={{
           width: 200, flexShrink: 0,
           borderRight: "1px solid rgba(255,255,255,0.07)",
-          position: "sticky", top: 50, alignSelf: "flex-start",
-          height: "calc(100vh - 50px)", overflowY: "auto",
+          position: "sticky", top: 0, alignSelf: "flex-start",
+          height: "100vh", overflowY: "auto",
           display: "flex", flexDirection: "column",
           background: "rgba(6,6,6,0.99)",
         }}>
@@ -3225,8 +3224,8 @@ export default function ProtocolWars() {
           <div style={{ padding: "16px 12px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
             <button onClick={() => setView("1v1")} className="btn-arena" style={{ width: "100%", marginBottom: 10 }}>
               <div className="btn-arena-main">
-                <div className="btn-arena-top">1V1 ARENA</div>
-                <div className="btn-arena-bot">Protocol battles</div>
+                <div className="btn-arena-top">1V1</div>
+                <div className="btn-arena-bot">Arena battles</div>
               </div>
               <div className="btn-arena-side">→</div>
             </button>
