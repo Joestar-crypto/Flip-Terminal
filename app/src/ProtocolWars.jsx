@@ -24,8 +24,8 @@ const PROTOCOL_BRAND_COLORS = {
   "predict-fun":     "#F59E0B",  // Predict Fun — amber
   // ── DEX ──────────────────────────────────────────────────────────────────
   "uniswap":        "#FF007A",  // Uniswap — iconic hot pink
-  "curve-finance":  "#3A7BFF",  // Curve — electric blue from logo
-  "curve-dex":      "#3A7BFF",
+  "curve-finance":  "#F5D100",  // Curve — golden yellow wavy-curve logo
+  "curve-dex":      "#F5D100",
   "balancer":       "#A855F7",  // Balancer — violet purple gradient accent
   "aerodrome":      "#FF2D55",  // Aerodrome — red like a runway light
   "pancakeswap":    "#1FC7D4",  // PancakeSwap — signature teal/cyan
@@ -42,6 +42,18 @@ const PROTOCOL_BRAND_COLORS = {
   "camelot":        "#F5C542",  // Camelot — gold/yellow medieval
   "lifinity":       "#00C2FF",  // Lifinity — cyan blue
   "openbook-dex":   "#F97316",  // OpenBook — orange
+  "solfi":          "#9945FF",  // SolFi — Solana purple
+  "tristero":       "#F97316",  // Tristero — orange
+  "b402":           "#2563EB",  // b402 — blue
+  "opinion":        "#8B5CF6",  // Opinion (BSC) — purple
+  "four.meme":      "#22C55E",  // four.meme — meme-launch green
+  "kumbaya":        "#E879F9",  // Kumbaya (MegaETH) — fuchsia
+  "prism-dex":      "#38BDF8",  // Prism DEX — sky blue
+  "sectorone-dlmm": "#34D399",  // SectorOne DLMM — emerald
+  "currentx-v3":    "#FB923C",  // CurrentX V3 — orange
+  "warpx-v3":       "#A78BFA",  // WarpX V3 — lavender
+  "thena":          "#FF3CBF",  // THENA — hot pink
+  "biswap":         "#F59E0B",  // Biswap — amber
   // ── Lending ──────────────────────────────────────────────────────────────
   "aave":           "#7c3aed",  // Aave — vivid violet
   "compound":       "#00D395",  // Compound — green
@@ -64,6 +76,24 @@ const PROTOCOL_BRAND_COLORS = {
   "solend":         "#7C5CFC",  // Solend — soft purple
   "seamless-protocol": "#00E5BE", // Seamless — teal
   "drift":          "#FF6B4A",  // Drift — orange-red
+  // ── Lending variant slugs (versioned / chain-specific) ───────────────────
+  "aave-v3":          "#7c3aed",  // Aave V3 → Aave violet
+  "sparklend":        "#E95B2E",  // SparkLend → Spark orange
+  "morpho-v1":        "#006eff",  // Morpho V1 → Morpho blue
+  "fluid-lending":    "#4C8FFF",  // Fluid Lending → Fluid blue
+  "fluid-v2":         "#4C8FFF",
+  "euler-v2":         "#E84040",  // Euler V2 → Euler red
+  "seamless-v2":      "#00E5BE",  // Seamless V2 → Seamless teal
+  "moonwell-lending": "#A855F7",  // Moonwell Lending → purple moon
+  "drift-trade":      "#FF6B4A",  // Drift Trade → Drift orange-red
+  "marginfi-lending": "#B45BFF",  // MarginFi Lending → vivid purple
+  "lista-lending":    "#00A97C",  // Lista DAO — branded teal-green
+  "loopscale":        "#7C3AED",  // Loopscale — purple
+  "project-0":        "#22C5A0",  // Project 0 — teal
+  "save":             "#2563EB",  // Save — blue
+  "avon-megavault":   "#8B5CF6",  // Avon MegaVault — purple
+  "canonic":          "#06B6D4",  // Canonic — cyan
+  "quantus-lend":     "#10B981",  // Quantus Lend — green
   // ── Aggregators ───────────────────────────────────────────────────────────
   "kyberswap-aggregator": "#31CB9E",  // KyberSwap — green
   "jupiter-aggregator":   "#00BFA5",  // Jupiter Aggregator — teal
@@ -81,7 +111,7 @@ const PROTOCOL_BRAND_COLORS = {
   "believe":              "#F59E0B",  // Believe — amber
   // ── Data Availability ─────────────────────────────────────────────────────
   "eigenda":  "#A855F7",  // EigenDA — purple
-  "celestia": "#EC4899",  // Celestia — pink
+  "celestia": "#7B2DFF",  // Celestia — deep purple brand
   "avail":    "#14B8A6",  // Avail — teal
   "dac":      "#94A3B8",  // Data Availability Committees — slate
   "customda": "#64748B",  // Custom DA — dark slate
@@ -91,7 +121,7 @@ const PROTOCOL_BRAND_COLORS = {
   "hyperliquid-perps":          "#00E3AB",
   "gmx":                        "#1FCAC5",  // GMX — teal
   "gmx-v2-perps":               "#1FCAC5",
-  "gains-network":              "#00AFFF",  // Gains Network — vivid sky blue
+  "gains-network":              "#00B171",  // Gains Network — signature green
   "aster":                      "#FF6B35",  // Aster — orange
   "aster-perps":                "#FF6B35",
   "edgex":                      "#06B6D4",  // edgeX — cyan
@@ -151,6 +181,30 @@ const PROTOCOL_BRAND_COLORS = {
   "Aptos":     "#49C2FF",
   "MegaETH":   "#dfd9d9",
   "Monad":     "#836EF9",
+  // ── Lowercase chain aliases ──────────────────────────────────────────────
+  "ethereum":  "#627EEA",
+  "near":      "#00C08B",  // NEAR — branded teal-green
+  // ── TCG / Physical TCG ─────────────────────────────────────────────────────
+  "courtyard":       "#C99D30",  // Courtyard — premium gold
+  "collector-crypt": "#7C3AED",  // Collector Crypt — deep purple
+  "chapool":         "#EF4444",  // Chapool — red (Chinese platform)
+  "phygitals":       "#3B82F6",  // Phygitals — blue/tech
+  "emporium":        "#10B981",  // Emporium — emerald
+  "collex":          "#EC4899",  // Collex — pink
+  // ── RWA ──────────────────────────────────────────────────────────────────────
+  "tether-gold":         "#F5D100",  // Tether Gold — gold
+  "blackrock-buidl":     "#1E3A5F",  // BlackRock BUIDL — dark navy
+  "ondo-yield-assets":   "#1A6CF4",  // Ondo Finance — blue
+  "centrifuge-protocol": "#E87C35",  // Centrifuge — orange
+  "superstate-ustb":     "#6366F1",  // Superstate — indigo
+  "spiko":               "#0EA5E9",  // Spiko — sky blue
+  "anemoy-capital":      "#14B8A6",  // Anemoy — teal
+  // ── ETF Products ─────────────────────────────────────────────────────────────
+  "IBIT": "#000000",   // BlackRock iShares Bitcoin — black
+  "FBTC": "#417632",   // Fidelity Bitcoin — green
+  "GBTC": "#5B6770",   // Grayscale Bitcoin Trust — gray
+  "ETHA": "#1E3A5F",   // BlackRock iShares Ethereum — navy
+  "BTC":  "#9B9B9B",   // Grayscale Bitcoin Mini Trust — silver
 };
 
 const FALLBACK_COLORS = [
@@ -207,7 +261,10 @@ const DT = {
   chainStables:      { arena: "Chain Stablecoin Supply Share",       valueLabel: "Stbl Supply" },
   aggregatorVolume:  { arena: "Aggregator Volume Market Share",         valueLabel: "Volume" },
   daL2beat:          { arena: "DA Layer TVL Secured",                        valueLabel: "TVL Secured" },
-  daDataPosted:      { arena: "DA Layer Activity (Daily Fees Paid)",        valueLabel: "Daily Fees" },
+  daDataPosted:      { arena: "DA Layer Data Posted (Daily)",               valueLabel: "Data Posted" },
+  treasury:          { arena: "Onchain Capital TVL Market Share",          valueLabel: "TVL" },
+  etf:               { arena: "ETF AUM Market Share",                      valueLabel: "AUM" },
+  dat:               { arena: "Digital Asset Treasury Share",              valueLabel: "Portfolio" },
 };
 
 // ─── Segments & rivalries ─────────────────────────────────────────────────────
@@ -252,29 +309,47 @@ const SEGMENTS = {
     rivalries: [],
     defaultSlugs: ["Ethereum", "Solana", "Base", "Arbitrum", "BSC"],
   },
-  "Pred Markets": {
-    label: "Prediction",
+  "Consumer": {
+    label: "Consumer",
     dataType: "volume",
     rivalries: [],
     defaultSlugs: ["polymarket", "kalshi", "azuro", "overtime-markets", "parcl", "opinion-rain", "predict-fun"],
+  },
+  "Launchpads": {
+    label: "Launchpads",
+    dataType: "fees",
+    rivalries: [],
+    defaultSlugs: ["pump.fun", "pinksale", "virtuals-protocol", "sunpump", "four.meme", "believe"],
+  },
+  "TCG": {
+    label: "TCG",
+    dataType: "fees",
+    rivalries: [],
+    defaultSlugs: ["courtyard", "collector-crypt", "chapool", "phygitals", "emporium"],
+  },
+  "RWA": {
+    label: "RWA",
+    dataType: "tvl",
+    rivalries: [],
+    defaultSlugs: ["tether-gold", "blackrock-buidl", "ondo-yield-assets", "centrifuge-protocol", "superstate-ustb"],
+  },
+  "ETF": {
+    label: "ETF",
+    dataType: "etf",
+    rivalries: [],
+    defaultSlugs: ["IBIT", "FBTC", "GBTC", "ETHA", "BTC"],
+  },
+  "DAT": {
+    label: "DAT",
+    dataType: "dat",
+    rivalries: [],
+    defaultSlugs: [],  // dynamically loaded from /treasuries
   },
   Aggregators: {
     label: "Aggregators",
     dataType: "aggregatorVolume",
     rivalries: [],
     defaultSlugs: ["kyberswap-aggregator", "jupiter-aggregator", "cowswap", "okx-swap", "odos"],
-  },
-  Launchpads: {
-    label: "Launchpads",
-    dataType: "fees",
-    rivalries: [],
-    defaultSlugs: ["pump.fun", "pinksale", "virtuals-protocol", "sunpump", "four.meme"],
-  },
-  "Data Availability": {
-    label: "Data Availability",
-    dataType: "daL2beat",
-    rivalries: [],
-    defaultSlugs: ["celestia", "eigenda", "near", "avail", "ethereum"],
   },
 };
 
@@ -470,7 +545,7 @@ const CHAIN_LENDING_PROTOCOLS = {
 };
 
 const SEGMENT_PROTOCOLS = {
-  "Pred Markets": [
+  "Consumer": [
     { slug: "polymarket",       name: "Polymarket" },
     { slug: "kalshi",           name: "Kalshi" },
     { slug: "azuro",            name: "Azuro" },
@@ -478,8 +553,16 @@ const SEGMENT_PROTOCOLS = {
     { slug: "parcl",            name: "Parcl" },
     { slug: "opinion-rain",     name: "Opinion Rain" },
     { slug: "predict-fun",      name: "Predict Fun" },
-    { slug: "limitless-exchange", name: "Limitless" },
+    { slug: "limitless-exchange",name: "Limitless" },
     { slug: "gnosis-conditional-tokens", name: "Gnosis" },
+  ],
+  "Launchpads": [
+    { slug: "pump.fun",          name: "pump.fun" },
+    { slug: "pinksale",          name: "PinkSale" },
+    { slug: "virtuals-protocol", name: "Virtuals" },
+    { slug: "sunpump",           name: "SunPump" },
+    { slug: "four.meme",         name: "four.meme" },
+    { slug: "believe",           name: "Believe" },
   ],
   Perps: [
     { slug: "hyperliquid-perps",          name: "Hyperliquid" },
@@ -504,14 +587,30 @@ const SEGMENT_PROTOCOLS = {
     { slug: "openocean",            name: "OpenOcean" },
     { slug: "1inch",                name: "1inch" },
   ],
-  Launchpads: [
-    { slug: "pump.fun",          name: "pump.fun" },
-    { slug: "pinksale",          name: "PinkSale" },
-    { slug: "virtuals-protocol", name: "Virtuals" },
-    { slug: "sunpump",           name: "SunPump" },
-    { slug: "four.meme",         name: "four.meme" },
-    { slug: "believe",           name: "Believe" },
+  "TCG": [
+    { slug: "courtyard",       name: "Courtyard" },
+    { slug: "collector-crypt", name: "Collector Crypt" },
+    { slug: "chapool",         name: "Chapool" },
+    { slug: "phygitals",       name: "Phygitals" },
+    { slug: "emporium",        name: "Emporium" },
   ],
+  "RWA": [
+    { slug: "tether-gold",         name: "Tether Gold" },
+    { slug: "blackrock-buidl",     name: "BlackRock BUIDL" },
+    { slug: "ondo-yield-assets",   name: "Ondo" },
+    { slug: "centrifuge-protocol", name: "Centrifuge" },
+    { slug: "superstate-ustb",     name: "Superstate" },
+    { slug: "spiko",               name: "Spiko" },
+    { slug: "anemoy-capital",      name: "Anemoy" },
+  ],
+  "ETF": [
+    { slug: "IBIT", name: "iShares Bitcoin" },
+    { slug: "FBTC", name: "Fidelity Bitcoin" },
+    { slug: "GBTC", name: "Grayscale Bitcoin" },
+    { slug: "ETHA", name: "iShares Ethereum" },
+    { slug: "BTC",  name: "Grayscale Mini" },
+  ],
+  "DAT": [],  // dynamically loaded from /treasuries
   Oracles: [
     { slug: "chainlink",      name: "Chainlink" },
     { slug: "redstone",       name: "RedStone" },
@@ -546,6 +645,13 @@ function formatUSD(n) {
   if (Math.abs(n) >= 1e3) return `$${(n / 1e3).toFixed(1)}K`;
   return `$${n.toFixed(0)}`;
 }
+function formatBytes(n) {
+  if (n == null || isNaN(n)) return "—";
+  if (n >= 1e12) return `${(n / 1e12).toFixed(2)} TB`;
+  if (n >= 1e9)  return `${(n / 1e9).toFixed(2)} GB`;
+  if (n >= 1e6)  return `${(n / 1e6).toFixed(2)} MB`;
+  return `${n.toFixed(0)} B`;
+}
 function formatDate(ts) {
   return new Date(ts * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
@@ -555,6 +661,45 @@ function slugToDisplay(slug) {
 function getTodayTs() { return Math.floor(Date.now() / 1000); }
 // Start of today in UTC (seconds) — used as upper bound to exclude incomplete today's data
 function getStartOfTodayUTC() { return Math.floor(Date.now() / 86400000) * 86400; }
+
+// ─── Digital Asset Treasuries cache ─────────────────────────────────────────
+let _treasuriesCache = null;
+let _treasuriesCacheTs = 0;
+async function fetchAllTreasuries() {
+  if (_treasuriesCache && Date.now() - _treasuriesCacheTs < 3600000) return _treasuriesCache;
+  const r = await fetch("https://api.llama.fi/treasuries");
+  if (!r.ok) throw new Error("Treasuries API unreachable");
+  _treasuriesCache = await r.json();
+  _treasuriesCacheTs = Date.now();
+  return _treasuriesCache;
+}
+
+// ─── ETF data cache (etfs.llama.fi) ─────────────────────────────────────────
+let _etfCache = null;
+let _etfCacheTs = 0;
+async function fetchETFData() {
+  if (_etfCache && Date.now() - _etfCacheTs < 3600000) return _etfCache;
+  const [snapshot, flows] = await Promise.all([
+    fetch("https://etfs.llama.fi/snapshot").then(r => { if (!r.ok) throw new Error("ETF API unavailable"); return r.json(); }),
+    fetch("https://etfs.llama.fi/flows").then(r => r.ok ? r.json() : []),
+  ]);
+  _etfCache = { snapshot, flows };
+  _etfCacheTs = Date.now();
+  return _etfCache;
+}
+
+// ─── BTC price history cache (CoinGecko, for DAT portfolio scaling) ───────────
+let _btcPriceCache = null;
+let _btcPriceCacheTs = 0;
+async function fetchBTCPriceHistory() {
+  if (_btcPriceCache && Date.now() - _btcPriceCacheTs < 3600000) return _btcPriceCache;
+  const r = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365&interval=daily");
+  if (!r.ok) throw new Error("BTC price history unavailable");
+  const d = await r.json();
+  _btcPriceCache = d.prices ?? [];
+  _btcPriceCacheTs = Date.now();
+  return _btcPriceCache;
+}
 
 // ─── L2beat DA adoption cache ─────────────────────────────────────────────────
 let _l2beatDACache = null;
@@ -723,12 +868,12 @@ async function fetchSlugData(slug, dataType, cutoff, chain) {
     return { series, name: daMeta.name, logo: daMeta.logo };
   }
   if (dataType === "daDataPosted") {
-    // DeFiLlama fees = best proxy for data-posting activity on each DA layer
-    // EigenDA has no public historical data-posted API — no source available
+    // DeFiLlama fees = proxy for DA layer usage/activity (all sources, CORS-friendly)
     const DA_FEES_SLUGS = {
       celestia: "celestia",
       near:     "near",
       ethereum: "ethereum",
+      eigenda:  "eigenlayer", // EigenLayer/EigenCloud fees — best available proxy for EigenDA activity
     };
     const feesSlug = DA_FEES_SLUGS[slug];
     if (!feesSlug) throw new Error("No public data-posted history available for this DA layer");
@@ -812,6 +957,47 @@ async function fetchSlugData(slug, dataType, cutoff, chain) {
       .filter(x => x.date >= cutoff && x.date < ceiling && x.value > 0);
     if (!series.length) throw new Error("No data");
     return { series, name: slug, logo: CHAIN_LOGOS[slug] ?? null };
+  }
+  if (dataType === "etf") {
+    const { snapshot, flows } = await fetchETFData();
+    const etf = snapshot.find(x => x.ticker === slug);
+    if (!etf) throw new Error("ETF ticker not found: " + slug);
+    const asset = etf.asset;
+    const totalAssetAum = snapshot.filter(x => x.asset === asset).reduce((s, x) => s + (x.aum || 0), 0);
+    const etfShare = totalAssetAum > 0 ? etf.aum / totalAssetAum : 0;
+    const assetFlows = flows
+      .filter(f => f.gecko_id === asset)
+      .map(f => ({ ts: Math.floor(new Date(f.day + "T00:00:00Z").getTime() / 1000), flow: f.total_flow_usd || 0 }))
+      .sort((a, b) => a.ts - b.ts);
+    const series = [];
+    let runningTotal = totalAssetAum;
+    for (let i = assetFlows.length - 1; i >= 0; i--) {
+      const { ts, flow } = assetFlows[i];
+      runningTotal -= flow;
+      if (ts >= cutoff && ts < ceiling) series.push({ date: ts, value: Math.max(0, runningTotal) * etfShare });
+    }
+    series.push({ date: ceiling - 86400, value: etf.aum });
+    series.sort((a, b) => a.date - b.date);
+    const filtered = series.filter(x => x.date >= cutoff && x.date < ceiling);
+    if (!filtered.length) throw new Error("No ETF data in range for " + slug);
+    return { series: filtered, name: slug + (etf.issuer ? " (" + etf.issuer + ")" : ""), logo: null };
+  }
+  if (dataType === "dat") {
+    const all = await fetchAllTreasuries();
+    const p = all.find(x => x.slug === slug);
+    if (!p || typeof p.tvl !== "number" || p.tvl < 1e6) throw new Error("No treasury data for " + slug);
+    const currentTvl = p.tvl;
+    const btcPrices = await fetchBTCPriceHistory();
+    if (!btcPrices?.length) return { series: [{ date: ceiling - 86400, value: currentTvl }], name: p.name, logo: p.logo ?? null };
+    const latestBtcPrice = btcPrices[btcPrices.length - 1][1];
+    const series = btcPrices
+      .map(([ts_ms, price]) => ({ date: Math.floor(ts_ms / 1000), value: currentTvl * (price / latestBtcPrice) }))
+      .filter(x => x.date >= cutoff && x.date < ceiling && x.value > 0);
+    if (!series.length) throw new Error("No DAT data in range for " + slug);
+    return { series, name: p.name, logo: p.logo ?? null };
+  }
+  if (dataType === "treasury") {
+    // treasury dataType is deprecated — fall through to tvl
   }
   // tvl
   const res = await fetch(`https://api.llama.fi/protocol/${slug}`);
@@ -1707,15 +1893,32 @@ function MatchupBattle({ matchup }) {
         flexWrap: "wrap", gap: 8,
       }}>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-          {matchup.metrics.map(m => (
-            <button key={m.key} onClick={() => setActiveMetricKey(m.key)} style={{
-              background: activeMetricKey === m.key ? "rgba(255,255,255,0.1)" : "#0e0e0e",
-              border: `1px solid ${activeMetricKey === m.key ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}`,
-              borderRadius: 6, color: activeMetricKey === m.key ? "#ffffff" : "rgba(255,255,255,0.55)",
-              padding: "5px 14px", cursor: "pointer", fontSize: 11, fontWeight: 700, fontFamily: "inherit",
-              letterSpacing: 0.5, transition: "all .15s",
-            }}>{m.label}</button>
-          ))}
+          {matchup.metrics.map(m => {
+            const d = metricData[m.key] || [];
+            const lastPt = d[d.length - 1];
+            const lPct = lastPt?.[matchup.left.slug] ?? null;
+            const rPct = lastPt?.[matchup.right.slug] ?? null;
+            const isActive = activeMetricKey === m.key;
+            return (
+              <button key={m.key} onClick={() => setActiveMetricKey(m.key)} style={{
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 1,
+                background: isActive ? "rgba(255,255,255,0.1)" : "#0e0e0e",
+                border: `1px solid ${isActive ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}`,
+                borderRadius: 6, color: isActive ? "#ffffff" : "rgba(255,255,255,0.55)",
+                padding: "5px 14px", cursor: "pointer", fontSize: 11, fontWeight: 700, fontFamily: "inherit",
+                letterSpacing: 0.5, transition: "all .15s",
+              }}>
+                <span>{m.label}</span>
+                {lPct != null && (
+                  <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: 0 }}>
+                    <span style={{ color: matchup.left.color }}>{lPct.toFixed(0)}%</span>
+                    <span style={{ color: "rgba(255,255,255,0.25)" }}> · </span>
+                    <span style={{ color: matchup.right.color }}>{rPct.toFixed(0)}%</span>
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
         <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
           {TIME_RANGES.map(r => (
@@ -2373,6 +2576,27 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
   );
 }
 
+// ─── FlipIndex title (HTML + inline SVG, no canvas) ─────────────────────────
+function FlipIndexTitle() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 0, lineHeight: 1 }}>
+      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 800, fontSize: 18, color: "#ffffff", letterSpacing: "-0.01em" }}>Flip</span>
+      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.58)", letterSpacing: "-0.01em" }}>Inde</span>
+      {/* X logo */}
+      <svg width="14" height="14" viewBox="52 62 96 76" style={{ marginLeft: 2, overflow: "visible" }}>
+        {/* main curve */}
+        <path d="M52,138 C72,138 88,62 112,62" stroke="rgba(255,255,255,0.92)" strokeWidth="7" strokeLinecap="round" fill="none"/>
+        {/* secondary curve */}
+        <path d="M52,62 C76,62 92,138 148,138" stroke="rgba(255,255,255,0.28)" strokeWidth="5.5" strokeLinecap="round" fill="none"/>
+        {/* main dot */}
+        <circle cx="112" cy="62" r="7" fill="#ffffff"/>
+        {/* secondary dot */}
+        <circle cx="52" cy="138" r="4.5" fill="rgba(255,255,255,0.35)"/>
+      </svg>
+    </div>
+  );
+}
+
 // ─── Main app ───────────────────────────────────────────────────────────────
 export default function ProtocolWars() {
   const [view, setView] = useState("main"); // "main" | "1v1"
@@ -2385,9 +2609,8 @@ export default function ProtocolWars() {
   const [dexMetric, setDexMetric] = useState("volume"); // "volume" | "tvl"
   const [perpsMetric, setPerpsMetric] = useState("fees"); // "fees" | "openInterest" | "volume"
   const [blockchainsMetric, setBlockchainsMetric] = useState("chainTvl"); // "chainTvl" | "chainVolume" | "chainRevenue"
-  const [predMarketsMetric, setPredMarketsMetric] = useState("volume"); // "volume" | "fees" | "openInterest"
+  const [consumerMetric, setConsumerMetric] = useState("volume"); // "volume" | "fees" | "openInterest"
   const [aggregatorsMetric, setAggregatorsMetric] = useState("aggregatorVolume"); // "aggregatorVolume" | "fees"
-  const [daMetric, setDaMetric] = useState("daL2beat"); // "daL2beat" | "daDataPosted"
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchProtocolSlug, setSearchProtocolSlug] = useState(null);
@@ -2515,13 +2738,11 @@ export default function ProtocolWars() {
           ? (perpsMetric === "openInterest" ? "openInterest" : perpsMetric === "volume" ? "perpsVolume" : "fees")
           : activeSegment === "Blockchains"
             ? blockchainsMetric
-            : activeSegment === "Pred Markets"
-              ? predMarketsMetric
+            : activeSegment === "Consumer"
+              ? consumerMetric
               : activeSegment === "Aggregators"
                 ? aggregatorsMetric
-                : activeSegment === "Data Availability"
-                  ? daMetric
-                  : (SEGMENTS[activeSegment]?.dataType || "tvl");
+                : (SEGMENTS[activeSegment]?.dataType || "tvl");
   const currentChain =
     activeSegment === "DEX" ? dexChain :
     activeSegment === "Lending" ? lendingChain :
@@ -2715,16 +2936,14 @@ export default function ProtocolWars() {
               ? (perpsMetric === "openInterest" ? "openInterest" : perpsMetric === "volume" ? "perpsVolume" : "fees")
               : activeSegment === "Blockchains"
                 ? blockchainsMetric
-                : activeSegment === "Pred Markets"
-                  ? predMarketsMetric
+                : activeSegment === "Consumer"
+                  ? consumerMetric
                   : activeSegment === "Aggregators"
                     ? aggregatorsMetric
-                    : activeSegment === "Data Availability"
-                      ? daMetric
-                      : (SEGMENTS[activeSegment]?.dataType || "tvl");
+                    : (SEGMENTS[activeSegment]?.dataType || "tvl");
       fetchData(slugs, timeRange, dataType, chain);
     }
-  }, [slugs, timeRange, activeSegment, activeRivalry, dexChain, lendingChain, lendingMetric, dexMetric, perpsMetric, blockchainsMetric, predMarketsMetric, aggregatorsMetric, daMetric, fetchData]);
+  }, [slugs, timeRange, activeSegment, activeRivalry, dexChain, lendingChain, lendingMetric, dexMetric, perpsMetric, blockchainsMetric, consumerMetric, aggregatorsMetric, fetchData]);
 
   const handleSegmentChange = seg => {
     setActiveSegment(seg);
@@ -2753,13 +2972,36 @@ export default function ProtocolWars() {
       setLendingChain(null);
       setAggregatorsMetric("aggregatorVolume");
       setSlugs(SEGMENTS.Aggregators.defaultSlugs);
+    } else if (seg === "ETF") {
+      setDexChain(null);
+      setLendingChain(null);
+      setSlugs(SEGMENTS.ETF.defaultSlugs);
+      fetchETFData().then(({ snapshot }) => {
+        const top5 = [...snapshot]
+          .filter(x => x.aum > 0)
+          .sort((a, b) => b.aum - a.aum)
+          .slice(0, 5)
+          .map(e => e.ticker);
+        if (top5.length > 0) setSlugs(top5);
+      }).catch(() => {});
+    } else if (seg === "DAT") {
+      setDexChain(null);
+      setLendingChain(null);
+      setSlugs([]);
+      fetchAllTreasuries().then(all => {
+        const top5 = all
+          .filter(p => typeof p.tvl === "number" && p.tvl > 1e6)
+          .sort((a, b) => b.tvl - a.tvl)
+          .slice(0, 5)
+          .map(p => p.slug);
+        setSlugs(top5);
+      }).catch(() => setSlugs([]));
     } else {
       setDexChain(null);
       setLendingChain(null);
       const seg_data = SEGMENTS[seg];
       if (seg === "Blockchains") setBlockchainsMetric("chainTvl");
-      if (seg === "Pred Markets") setPredMarketsMetric("volume");
-      if (seg === "Data Availability") setDaMetric("daL2beat");
+      if (seg === "Consumer") setConsumerMetric("volume");
       setSlugs(seg_data.defaultSlugs ?? seg_data.rivalries[0]?.slugs ?? []);
     }
   };
@@ -2894,6 +3136,10 @@ export default function ProtocolWars() {
         @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
         @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
         @keyframes loadbar { 0%{left:-45%;width:45%} 100%{left:100%;width:45%} }
+        @keyframes flicker { 0%,100%{opacity:1;text-shadow:0 0 8px #ff9500,0 0 20px #ff5500,0 0 40px #ff2200} 25%{opacity:.9;text-shadow:0 0 12px #ffb700,0 0 30px #ff6600,0 0 60px #ff3300} 50%{opacity:1;text-shadow:0 0 6px #ff8800,0 0 18px #ff4800,0 0 36px #ff1500} 75%{opacity:.95;text-shadow:0 0 10px #ffaa00,0 0 25px #ff5800,0 0 50px #ff2800} }
+        @keyframes flamePulse { 0%,100%{box-shadow:0 0 12px #ff6600,0 0 28px #ff3300,0 0 50px rgba(255,80,0,0.4),inset 0 0 15px rgba(255,120,0,0.15)} 50%{box-shadow:0 0 20px #ff8800,0 0 45px #ff4400,0 0 80px rgba(255,100,0,0.5),inset 0 0 25px rgba(255,140,0,0.2)} }
+        .btn-1v1 { animation: flamePulse 1.8s ease-in-out infinite; }
+        .btn-1v1 span { animation: flicker 1.4s ease-in-out infinite; }
         ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-track{background:#0e0e0e}
         ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
         input{outline:none} input:focus{border-color:rgba(255,255,255,0.4) !important}
@@ -2944,10 +3190,18 @@ export default function ProtocolWars() {
           padding: "0 20px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
           background: "rgba(6,6,6,0.99)",
+          position: "sticky", top: 0, zIndex: 50,
         }}>
-          <img src="/flipx-logo.svg" alt="Flippening" style={{ width: 28, height: 28, borderRadius: 7, filter: "drop-shadow(0 0 8px rgba(255,255,255,0.45))" }} />
-          <span style={{ fontFamily: "'Syne', 'Orbitron', sans-serif", fontSize: 18, fontWeight: 900, color: "#fff", letterSpacing: 0.3 }}>Flippening</span>
-          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 9, letterSpacing: 1.2, textTransform: "uppercase", fontStyle: "italic", marginLeft: 2 }}>Watch your favorite protocol get flipped</span>
+          <FlipIndexTitle />
+          <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 9, letterSpacing: 1.2, textTransform: "uppercase", fontStyle: "italic", marginLeft: 4 }}>Watch your favorite protocol get flipped</span>
+          <div style={{ marginLeft: "auto" }}>
+            <a href="https://x.com/JoestarCrypto" target="_blank" rel="noopener noreferrer" className="hero-overlay__credit">
+              <span className="hero-overlay__credit-label">Made by Joestar</span>
+              <span className="hero-overlay__credit-avatar">
+                <img src="/Jojo2.webp" alt="Joestar" />
+              </span>
+            </a>
+          </div>
         </div>
 
         <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
@@ -2963,19 +3217,19 @@ export default function ProtocolWars() {
         }}>
           {/* 1v1 button — top of sidebar */}
           <div style={{ padding: "16px 12px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
-            <button onClick={() => setView("1v1")} style={{
+            <button onClick={() => setView("1v1")} className="btn-1v1" style={{
               width: "100%",
               fontFamily: "'Orbitron', sans-serif",
-              fontWeight: 900, fontSize: 11, letterSpacing: 3,
-              padding: "10px 0", borderRadius: 8, cursor: "pointer",
-              background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%)",
-              border: "1px solid rgba(120,160,255,0.55)",
-              color: "#a8c8ff",
-              boxShadow: "0 0 12px rgba(100,140,255,0.25)",
+              fontWeight: 900, fontSize: 17, letterSpacing: 5,
+              padding: "13px 0", borderRadius: 8, cursor: "pointer",
+              background: "linear-gradient(160deg, #1a0800 0%, #2d0e00 40%, #1a0500 100%)",
+              border: "1px solid rgba(255,120,0,0.7)",
+              color: "#ff9500",
               transition: "all .18s",
-              textShadow: "0 0 10px rgba(160,200,255,0.6)",
               marginBottom: 10,
-            }}>1v1</button>
+              position: "relative",
+              overflow: "visible",
+            }}><span>1V1</span></button>
 
             {/* Search bar */}
             <div ref={searchRef} style={{ position: "relative" }}>
@@ -3047,9 +3301,9 @@ export default function ProtocolWars() {
           <div style={{ flex: 1, overflowY: "auto", padding: "10px 0 16px 12px", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
             {[
               { group: "TRADING",        items: ["DEX", "Aggregators", "Perps"] },
-              { group: "FINANCE",        items: ["Lending", "Liquid Staking", "Stablecoins", "Launchpads"] },
-              { group: "INFRASTRUCTURE", items: ["Blockchains", "Oracles", "Data Availability"] },
-              { group: "MARKETS",        items: ["Pred Markets"] },
+              { group: "FINANCE",        items: ["Lending", "Liquid Staking", "Stablecoins", "RWA", "ETF", "DAT"] },
+              { group: "INFRASTRUCTURE", items: ["Blockchains", "Oracles"] },
+              { group: "CONSUMER",       items: ["Consumer", "Launchpads", "TCG"] },
             ].map(({ group, items }) => (
               <div key={group} style={{ marginBottom: 22 }}>
                 <div style={{
@@ -3168,7 +3422,7 @@ export default function ProtocolWars() {
 
         {/* ── Controls Bar ── */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-          {(activeSegment === "DEX" || activeSegment === "Lending" || activeSegment === "Perps" || activeSegment === "Blockchains" || activeSegment === "Pred Markets" || activeSegment === "Aggregators" || activeSegment === "Data Availability") && (
+          {(activeSegment === "DEX" || activeSegment === "Lending" || activeSegment === "Perps" || activeSegment === "Blockchains" || activeSegment === "Consumer" || activeSegment === "Aggregators") && (
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ color: "rgba(255,255,255,0.65)", fontSize: 10, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase" }}>Metric</span>
               <div style={{ display: "flex", gap: 2, background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 5, padding: "2px" }}>
@@ -3214,15 +3468,15 @@ export default function ProtocolWars() {
                     padding: "3px 11px", cursor: "pointer", fontWeight: 600, fontSize: 11, transition: "all .15s", fontFamily: "inherit",
                   }}>{label}</button>
                 ))}
-                {activeSegment === "Pred Markets" && [
+                {activeSegment === "Consumer" && [
                   { key: "volume",       label: "Volume" },
                   { key: "fees",         label: "Fees" },
                   { key: "openInterest", label: "Open Interest" },
                 ].map(({ key, label }) => (
-                  <button key={key} onClick={() => { setPredMarketsMetric(key); setHiddenSlugs(new Set()); }} style={{
-                    background: predMarketsMetric === key ? "rgba(255,255,255,0.1)" : "transparent",
-                    border: predMarketsMetric === key ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
-                    color: predMarketsMetric === key ? "#ffffff" : "rgba(255,255,255,0.7)", borderRadius: 3,
+                  <button key={key} onClick={() => { setConsumerMetric(key); setHiddenSlugs(new Set()); }} style={{
+                    background: consumerMetric === key ? "rgba(255,255,255,0.1)" : "transparent",
+                    border: consumerMetric === key ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
+                    color: consumerMetric === key ? "#ffffff" : "rgba(255,255,255,0.7)", borderRadius: 3,
                     padding: "3px 11px", cursor: "pointer", fontWeight: 600, fontSize: 11, transition: "all .15s", fontFamily: "inherit",
                   }}>{label}</button>
                 ))}
@@ -3237,17 +3491,7 @@ export default function ProtocolWars() {
                     padding: "3px 11px", cursor: "pointer", fontWeight: 600, fontSize: 11, transition: "all .15s", fontFamily: "inherit",
                   }}>{label}</button>
                 ))}
-                {activeSegment === "Data Availability" && [
-                  { key: "daL2beat",      label: "TVL Secured" },
-                  { key: "daDataPosted",  label: "Data Posted" },
-                ].map(({ key, label }) => (
-                  <button key={key} onClick={() => { setDaMetric(key); setHiddenSlugs(new Set()); }} style={{
-                    background: daMetric === key ? "rgba(255,255,255,0.1)" : "transparent",
-                    border: daMetric === key ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
-                    color: daMetric === key ? "#ffffff" : "rgba(255,255,255,0.7)", borderRadius: 3,
-                    padding: "3px 11px", cursor: "pointer", fontWeight: 600, fontSize: 11, transition: "all .15s", fontFamily: "inherit",
-                  }}>{label}</button>
-                ))}
+
               </div>
               {activeSegment === "Perps" && JSON.stringify([...slugs].sort()) !== JSON.stringify([...SEGMENTS.Perps.defaultSlugs].sort()) && (
                 <button onClick={() => { setSlugs(SEGMENTS.Perps.defaultSlugs); setHiddenSlugs(new Set()); }} style={{
@@ -3642,12 +3886,6 @@ export default function ProtocolWars() {
           <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10 }}>
             Data: DeFiLlama • Not financial advice • {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </div>
-          <a href="https://x.com/JoestarCrypto" target="_blank" rel="noopener noreferrer" className="hero-overlay__credit">
-            <span className="hero-overlay__credit-label">Made by Joestar</span>
-            <span className="hero-overlay__credit-avatar">
-              <img src="/Jojo2.webp" alt="Joestar" />
-            </span>
-          </a>
         </footer>
         </div>
       </div>
