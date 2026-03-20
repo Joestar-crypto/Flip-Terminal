@@ -1939,7 +1939,7 @@ function MatchupBattle({ matchup }) {
 
               border: `1px solid ${showBattleAI ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.15)"}`,
               borderRadius: 6, color: showBattleAI ? "#ffffff" : "rgba(255,255,255,0.7)",
-              padding: "5px 13px", cursor: "pointer", fontSize: 11, fontWeight: 700,
+              padding: "3px 13px", cursor: "pointer", fontSize: 11, fontWeight: 700,
               fontFamily: "inherit", letterSpacing: 0.5, transition: "all .15s", flexShrink: 0,
             }}
           >
@@ -1954,7 +1954,7 @@ function MatchupBattle({ matchup }) {
               background: "#0e0e0e",
               border: "1px solid rgba(255,255,255,0.15)",
               borderRadius: 6, color: "rgba(255,255,255,0.7)",
-              padding: "5px 13px", cursor: "pointer", fontSize: 11, fontWeight: 700,
+              padding: "3px 13px", cursor: "pointer", fontSize: 11, fontWeight: 700,
               fontFamily: "inherit", letterSpacing: 0.5, transition: "all .15s", flexShrink: 0,
             }}
           >
@@ -2018,7 +2018,7 @@ function MatchupBattle({ matchup }) {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+                <XAxis dataKey="label" hide />
                 <YAxis tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} tickLine={false} axisLine={false} tickFormatter={v => `${v.toFixed(0)}%`} domain={[0, 100]} />
                 <Tooltip
                   formatter={(v, k) => [`${v.toFixed(2)}%`, k === matchup.left.slug ? matchup.left.label : matchup.right.label]}
@@ -2580,10 +2580,10 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
 function FlipIndexTitle() {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 0, lineHeight: 1 }}>
-      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 800, fontSize: 18, color: "#ffffff", letterSpacing: "-0.01em" }}>Flip</span>
-      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.58)", letterSpacing: "-0.01em" }}>Inde</span>
+      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 800, fontSize: 24, color: "#ffffff", letterSpacing: "-0.01em" }}>Flip</span>
+      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontWeight: 300, fontSize: 24, color: "rgba(255,255,255,0.58)", letterSpacing: "-0.01em" }}>Inde</span>
       {/* X logo */}
-      <svg width="14" height="14" viewBox="52 62 96 76" style={{ marginLeft: 2, overflow: "visible" }}>
+      <svg width="18" height="18" viewBox="52 62 96 76" style={{ marginLeft: 2, overflow: "visible" }}>
         {/* main curve */}
         <path d="M52,138 C72,138 88,62 112,62" stroke="rgba(255,255,255,0.92)" strokeWidth="7" strokeLinecap="round" fill="none"/>
         {/* secondary curve */}
@@ -2636,6 +2636,17 @@ export default function ProtocolWars() {
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [hiddenSlugs, setHiddenSlugs] = useState(new Set());
   const [contextData, setContextData] = useState({});
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setHeaderVisible(y < lastScrollY.current || y < 10);
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const fetchIdRef = useRef(0);
   const protocolMetaRef = useRef({});
   const canvasRef = useRef(null);
@@ -3138,6 +3149,11 @@ export default function ProtocolWars() {
         @keyframes loadbar { 0%{left:-45%;width:45%} 100%{left:100%;width:45%} }
         @keyframes flicker { 0%,100%{opacity:1;text-shadow:0 0 8px #ff9500,0 0 20px #ff5500,0 0 40px #ff2200} 25%{opacity:.9;text-shadow:0 0 12px #ffb700,0 0 30px #ff6600,0 0 60px #ff3300} 50%{opacity:1;text-shadow:0 0 6px #ff8800,0 0 18px #ff4800,0 0 36px #ff1500} 75%{opacity:.95;text-shadow:0 0 10px #ffaa00,0 0 25px #ff5800,0 0 50px #ff2800} }
         @keyframes flamePulse { 0%,100%{box-shadow:0 0 12px #ff6600,0 0 28px #ff3300,0 0 50px rgba(255,80,0,0.4),inset 0 0 15px rgba(255,120,0,0.15)} 50%{box-shadow:0 0 20px #ff8800,0 0 45px #ff4400,0 0 80px rgba(255,100,0,0.5),inset 0 0 25px rgba(255,140,0,0.2)} }
+        @keyframes arenaRotate { from{--arena-angle:0deg} to{--arena-angle:360deg} }
+        @property --arena-angle { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+        .btn-1v1-wrap{position:relative;border-radius:10px;padding:1.5px;background:conic-gradient(from var(--arena-angle),#FF007A,#7c3aed,#0072F5,#00D395,#F5D100,#FF6B4A,#A855F7,#FF007A);animation:arenaRotate 3s linear infinite;margin-bottom:10px;}
+        .btn-1v1-inner{display:block;width:100%;text-align:left;background:#0e0e0e;border:none;border-radius:8px;color:#d4d4d8;padding:12px 10px 12px 14px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;position:relative;}
+        .btn-1v1-inner:hover{background:#161618;color:#ffffff;}
         .btn-arena{display:inline-flex;align-items:stretch;height:52px;border-radius:12px;background:#ffffff;border:none;cursor:pointer;overflow:hidden;transition:transform 0.18s,box-shadow 0.18s;box-shadow:0 0 0 0 rgba(255,255,255,0);padding:0;}
         .btn-arena:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,255,255,0.12);}
         .btn-arena:active{transform:scale(0.97);}
@@ -3191,11 +3207,14 @@ export default function ProtocolWars() {
 
         {/* ── Horizontal title bar ── */}
         <div style={{
-          height: 50, flexShrink: 0,
+          height: 60, flexShrink: 0,
           display: "flex", alignItems: "center", gap: 10,
           padding: "0 20px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
-          background: "rgba(6,6,6,0.99)",
+          background: "rgba(6,6,6,0.98)",
+          position: "sticky", top: 0, zIndex: 50,
+          transform: headerVisible ? "translateY(0)" : "translateY(-100%)",
+          transition: "transform 0.3s ease",
         }}>
           <FlipIndexTitle />
           <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 9, letterSpacing: 1.2, textTransform: "uppercase", fontStyle: "italic", marginLeft: 4 }}>Watch your favorite protocol get flipped</span>
@@ -3221,14 +3240,13 @@ export default function ProtocolWars() {
           background: "rgba(6,6,6,0.99)",
         }}>
           {/* 1v1 button — top of sidebar */}
-          <div style={{ padding: "16px 12px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
-            <button onClick={() => setView("1v1")} className="btn-arena" style={{ width: "100%", marginBottom: 10 }}>
-              <div className="btn-arena-main">
-                <div className="btn-arena-top">1V1</div>
-                <div className="btn-arena-bot">Arena battles</div>
-              </div>
-              <div className="btn-arena-side">→</div>
-            </button>
+          <div style={{ padding: "10px 8px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 }}>
+            <div className="btn-1v1-wrap">
+              <button onClick={() => setView("1v1")} className="btn-1v1-inner">
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, letterSpacing: "0.1em", lineHeight: 1, color: "inherit" }}>1v1</div>
+                <div style={{ fontFamily: "inherit", fontSize: 10, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(180,180,190,0.6)", marginTop: 5 }}>Arena Battles</div>
+              </button>
+            </div>
 
             {/* Search bar */}
             <div ref={searchRef} style={{ position: "relative" }}>
@@ -3317,7 +3335,7 @@ export default function ProtocolWars() {
                     <button key={key} onClick={() => { handleSegmentChange(key); if (view === "protocol") { setView("main"); setSearchProtocolSlug(null); setSearchQuery(""); } }} style={{
                       display: "block", width: "100%", textAlign: "left",
                       background: isActive ? "rgba(255,255,255,0.08)" : "transparent",
-                      border: "none", borderRadius: 8,
+                      border: "none", borderRadius: isActive ? "8px 0 0 8px" : 8,
                       color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)",
                       padding: "10px 10px 10px 14px", cursor: "pointer",
                       fontWeight: isActive ? 700 : 500,
