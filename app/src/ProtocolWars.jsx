@@ -1793,14 +1793,15 @@ function MatchupBattle({ matchup }) {
   };
 
   return (
-    <div>
+    <div className="arena-neon-wrap" style={{ borderRadius: 14, height: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", borderRadius: 12, overflow: "hidden", background: "#111" }}>
       {/* ── Fight Banner ── */}
       <div style={{
-        position: "relative", overflow: "hidden", borderRadius: "16px 16px 0 0", marginBottom: 0,
+        position: "relative", overflow: "hidden", borderRadius: 0, marginBottom: 0,
         background: `linear-gradient(110deg, ${matchup.left.color}20 0%, #0e0e0e 35%, #0e0e0e 65%, ${matchup.right.color}20 100%)`,
-        border: "1px solid rgba(255,255,255,0.05)", borderBottom: "none",
+        border: "none", borderBottom: "none",
         boxShadow: `inset 0 0 60px rgba(0,0,0,0.6)`,
-        padding: "28px 32px",
+        padding: "8px 20px", flexShrink: 0,
       }}>
         {/* Diagonal slash overlay */}
         <div style={{
@@ -1809,7 +1810,7 @@ function MatchupBattle({ matchup }) {
         }} />
 
         {/* Category pill */}
-        <div style={{ textAlign: "center", marginBottom: 22 }}>
+        <div style={{ textAlign: "center", marginBottom: 6 }}>
           <span style={{
             display: "inline-block", fontFamily: "'Orbitron',sans-serif",
             fontSize: 9, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase",
@@ -1826,19 +1827,19 @@ function MatchupBattle({ matchup }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               {logos[matchup.left.slug] ? (
                 <img src={logos[matchup.left.slug]} alt="" style={{
-                  width: 52, height: 52, borderRadius: 13, flexShrink: 0,
+                  width: 36, height: 36, borderRadius: 9, flexShrink: 0,
                   border: `2px solid ${matchup.left.color}${overallWinner === "left" ? "cc" : "44"}`,
-                  boxShadow: overallWinner === "left" ? `0 0 28px ${matchup.left.color}55, 0 0 60px ${matchup.left.color}22` : "none",
+                  boxShadow: overallWinner === "left" ? `0 0 20px ${matchup.left.color}55` : "none",
                   transition: "box-shadow 0.6s",
                 }} />
               ) : (
-                <div style={{ width: 52, height: 52, borderRadius: 13, background: matchup.left.color + "22", border: `2px solid ${matchup.left.color}44`, flexShrink: 0 }} />
+                <div style={{ width: 36, height: 36, borderRadius: 9, background: matchup.left.color + "22", border: `2px solid ${matchup.left.color}44`, flexShrink: 0 }} />
               )}
               <div>
                 <div style={{
-                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 20, letterSpacing: 1,
+                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 14, letterSpacing: 1,
                   color: matchup.left.color,
-                  textShadow: overallWinner === "left" ? `0 0 28px ${matchup.left.color}88` : "none",
+                  textShadow: overallWinner === "left" ? `0 0 20px ${matchup.left.color}88` : "none",
                 }}>{matchup.left.label}</div>
                 {overallWinner === "left" && (
                   <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, color: matchup.left.color, marginTop: 2 }}>⚡ DOMINATING</div>
@@ -1850,7 +1851,7 @@ function MatchupBattle({ matchup }) {
           {/* VS */}
           <div style={{ flexShrink: 0, textAlign: "center", paddingBottom: 4 }}>
             <div style={{
-              fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 48, letterSpacing: 6, lineHeight: 1,
+              fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 28, letterSpacing: 4, lineHeight: 1,
               background: "linear-gradient(180deg, #ffffff 0%, #c0c0c0 60%, #888888 100%)",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
               filter: "drop-shadow(0 0 24px rgba(255,255,255,0.3)) drop-shadow(0 2px 8px rgba(0,0,0,0.9))",
@@ -1862,19 +1863,19 @@ function MatchupBattle({ matchup }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexDirection: "row-reverse" }}>
               {logos[matchup.right.slug] ? (
                 <img src={logos[matchup.right.slug]} alt="" style={{
-                  width: 52, height: 52, borderRadius: 13, flexShrink: 0,
+                  width: 36, height: 36, borderRadius: 9, flexShrink: 0,
                   border: `2px solid ${matchup.right.color}${overallWinner === "right" ? "cc" : "44"}`,
-                  boxShadow: overallWinner === "right" ? `0 0 28px ${matchup.right.color}55, 0 0 60px ${matchup.right.color}22` : "none",
+                  boxShadow: overallWinner === "right" ? `0 0 20px ${matchup.right.color}55` : "none",
                   transition: "box-shadow 0.6s",
                 }} />
               ) : (
-                <div style={{ width: 52, height: 52, borderRadius: 13, background: matchup.right.color + "22", border: `2px solid ${matchup.right.color}44`, flexShrink: 0 }} />
+                <div style={{ width: 36, height: 36, borderRadius: 9, background: matchup.right.color + "22", border: `2px solid ${matchup.right.color}44`, flexShrink: 0 }} />
               )}
               <div style={{ textAlign: "right" }}>
                 <div style={{
-                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 20, letterSpacing: 1,
+                  fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 14, letterSpacing: 1,
                   color: matchup.right.color,
-                  textShadow: overallWinner === "right" ? `0 0 28px ${matchup.right.color}88` : "none",
+                  textShadow: overallWinner === "right" ? `0 0 20px ${matchup.right.color}88` : "none",
                 }}>{matchup.right.label}</div>
                 {overallWinner === "right" && (
                   <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: 3, color: matchup.right.color, marginTop: 2 }}>DOMINATING ⚡</div>
@@ -1969,6 +1970,7 @@ function MatchupBattle({ matchup }) {
         background: "#111",
         border: "1px solid rgba(255,255,255,0.06)", borderTop: "none",
         borderRadius: "0 0 12px 12px", overflow: "hidden",
+        flex: 1, minHeight: 0, display: "flex", flexDirection: "column",
       }}>
         {!isLoading && lShare != null && (
           <>
@@ -1996,16 +1998,17 @@ function MatchupBattle({ matchup }) {
             </div>
           </>
         )}
-        <div style={{ padding: "10px 8px 12px", position: "relative" }}>
+        <div style={{ padding: "6px 8px 0", position: "relative", flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 1 }}>
-            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.04)", userSelect: "none" }}>Flippening</span>
+            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.04)", userSelect: "none" }}>FlipIndex</span>
           </div>
           {isLoading ? (
-            <div style={{ height: 230, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, letterSpacing: 3, fontFamily: "'Orbitron',sans-serif" }}>LOADING…</span>
             </div>
           ) : data.length > 0 ? (
-            <ResponsiveContainer width="100%" height={230}>
+            <div style={{ flex: 1, minHeight: 0 }}>
+            <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 4, right: 8, bottom: 0, left: -28 }}>
                 <defs>
                   <linearGradient id={`grad-b-${matchup.id}-${activeMetric?.key}-l`} x1="0" y1="0" x2="0" y2="1">
@@ -2029,8 +2032,9 @@ function MatchupBattle({ matchup }) {
                 <Area type="monotone" dataKey={matchup.right.slug} stackId="1" stroke={matchup.right.color} strokeWidth={1} fill={`url(#grad-b-${matchup.id}-${activeMetric?.key}-r)`} dot={false} activeDot={{ r: 4, strokeWidth: 0, fill: matchup.right.color }} isAnimationActive={true} animationDuration={1200} animationEasing="ease-out" />
               </AreaChart>
             </ResponsiveContainer>
+            </div>
           ) : (
-            <div style={{ height: 230, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 10, letterSpacing: 3, fontFamily: "'Orbitron',sans-serif" }}>NO DATA</span>
             </div>
           )}
@@ -2087,6 +2091,7 @@ function MatchupBattle({ matchup }) {
           </div>
         );
       })()}
+    </div>
     </div>
   );
 }
@@ -2284,7 +2289,7 @@ function BattleCard({ matchup, isActive, onClick }) {
     );
   };
 
-  return (
+  const card = (
     <div
       role="button" tabIndex={0}
       onClick={onClick}
@@ -2292,11 +2297,10 @@ function BattleCard({ matchup, isActive, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        height: 88, borderRadius: 14, overflow: "hidden", cursor: "pointer",
+        height: isActive ? "100%" : 88, borderRadius: isActive ? 12 : 14, overflow: "hidden", cursor: "pointer",
         background: "#111",
-        border: `1px solid ${isActive ? "rgba(255,255,255,0.5)" : lift ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.07)"}`,
-        transform: lift ? "translateY(-3px)" : "translateY(0)",
-        transition: "transform .2s, border-color .2s",
+        border: isActive ? "none" : `1px solid ${lift ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.07)"}`,
+        transition: "border-color .2s",
         position: "relative", display: "flex", flexDirection: "column",
         userSelect: "none",
       }}
@@ -2332,6 +2336,15 @@ function BattleCard({ matchup, isActive, onClick }) {
       </div>
     </div>
   );
+  return isActive ? (
+    <div className="arena-neon-wrap" style={{ borderRadius: 16, height: 88, transform: lift ? "translateY(-3px)" : "translateY(0)", transition: "transform .2s" }}>
+      {card}
+    </div>
+  ) : (
+    <div style={{ transform: lift ? "translateY(-3px)" : "translateY(0)", transition: "transform .2s" }}>
+      {card}
+    </div>
+  );
 }
 
 // ─── OneVOneView: renders inside the main arena-bg (no own wrapper) ───────────
@@ -2340,45 +2353,36 @@ function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId }) {
 
   return (
     <>
-      {/* Sticky header */}
-      <div style={{ background: "rgba(10,10,10,0.92)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", minHeight: 60, display: "flex", alignItems: "center", gap: 16 }}>
-          <button onClick={onBack} style={{ background: "#0e0e0e", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 7, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
-            ← Back
-          </button>
+      {/* Fixed header */}
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, background: "rgba(10,10,10,0.96)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto", height: 60, display: "flex", alignItems: "center", gap: 16 }}>
+          <div className="arena-neon-back">
+            <button onClick={onBack} style={{ display: "block", background: "#0e0e0e", border: "none", borderRadius: 8, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
+              ← Back
+            </button>
+          </div>
           <span style={{ fontFamily: "'Orbitron',sans-serif", color: "#e8e8e8", fontSize: 13, fontWeight: 900, letterSpacing: 4 }}>1v1 ARENA</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 20px 100px" }}>
-        {/* Arena hero */}
-        <div style={{ textAlign: "center", marginBottom: 44 }}>
-          <div style={{
-            fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 68,
-            background: "linear-gradient(180deg, #ffffff 0%, #c8c8c8 60%, #909090 100%)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            filter: "drop-shadow(0 0 40px rgba(255,255,255,0.2)) drop-shadow(0 6px 24px rgba(0,0,0,0.9))",
-            lineHeight: 1, letterSpacing: 12,
-          }}>ARENA</div>
-          <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 10, letterSpacing: 5, textTransform: "uppercase", marginTop: 10, fontFamily: "'Orbitron',sans-serif" }}>
-            {MATCHUPS.length} ACTIVE BATTLES · MARKET SHARE DOMINANCE
-          </div>
-        </div>
-
-        {/* ── Battle selector grid ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8, marginBottom: 44 }}>
+      <div style={{ height: "calc(100vh - 60px)", display: "flex", flexDirection: "column", overflow: "hidden", padding: "10px 16px 0" }}>
+        {/* ── Battle selector ── horizontal scrollable strip */}
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", flexShrink: 0, paddingBottom: 10, scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {MATCHUPS.map(m => (
-            <BattleCard
-              key={m.id}
-              matchup={m}
-              isActive={m.id === selectedMatchupId}
-              onClick={() => setSelectedMatchupId(m.id)}
-            />
+            <div key={m.id} style={{ flexShrink: 0, width: 158 }}>
+              <BattleCard
+                matchup={m}
+                isActive={m.id === selectedMatchupId}
+                onClick={() => setSelectedMatchupId(m.id)}
+              />
+            </div>
           ))}
         </div>
 
-        {/* ── Selected battle ── */}
-        {selectedMatchup && <MatchupBattle key={selectedMatchup.id} matchup={selectedMatchup} />}
+        {/* ── Selected battle ── fills remaining height */}
+        <div style={{ flex: 1, minHeight: 0, paddingBottom: 10 }}>
+          {selectedMatchup && <MatchupBattle key={selectedMatchup.id} matchup={selectedMatchup} />}
+        </div>
       </div>
     </>
   );
@@ -2636,17 +2640,6 @@ export default function ProtocolWars() {
   const [showAIPanel, setShowAIPanel] = useState(false);
   const [hiddenSlugs, setHiddenSlugs] = useState(new Set());
   const [contextData, setContextData] = useState({});
-  const [headerVisible, setHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setHeaderVisible(y < lastScrollY.current || y < 10);
-      lastScrollY.current = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
   const fetchIdRef = useRef(0);
   const protocolMetaRef = useRef({});
   const canvasRef = useRef(null);
@@ -3154,6 +3147,8 @@ export default function ProtocolWars() {
         .btn-1v1-wrap{position:relative;border-radius:10px;padding:1.5px;background:conic-gradient(from var(--arena-angle),#FF007A,#7c3aed,#0072F5,#00D395,#F5D100,#FF6B4A,#A855F7,#FF007A);animation:arenaRotate 3s linear infinite;margin-bottom:10px;}
         .btn-1v1-inner{display:block;width:100%;text-align:left;background:#0e0e0e;border:none;border-radius:8px;color:#d4d4d8;padding:12px 10px 12px 14px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;position:relative;}
         .btn-1v1-inner:hover{background:#161618;color:#ffffff;}
+        .arena-neon-wrap{position:relative;padding:1.5px;background:conic-gradient(from var(--arena-angle),#FF007A,#7c3aed,#0072F5,#00D395,#F5D100,#FF6B4A,#A855F7,#FF007A);animation:arenaRotate 3s linear infinite;}
+        .arena-neon-back{display:inline-block;border-radius:10px;padding:1.5px;background:conic-gradient(from var(--arena-angle),#FF007A,#7c3aed,#0072F5,#00D395,#F5D100,#FF6B4A,#A855F7,#FF007A);animation:arenaRotate 3s linear infinite;}
         .btn-arena{display:inline-flex;align-items:stretch;height:52px;border-radius:12px;background:#ffffff;border:none;cursor:pointer;overflow:hidden;transition:transform 0.18s,box-shadow 0.18s;box-shadow:0 0 0 0 rgba(255,255,255,0);padding:0;}
         .btn-arena:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,255,255,0.12);}
         .btn-arena:active{transform:scale(0.97);}
@@ -3205,16 +3200,15 @@ export default function ProtocolWars() {
       ) : (
       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
-        {/* ── Horizontal title bar ── */}
+        {/* ── Horizontal title bar ── FIXED */}
         <div style={{
-          height: 60, flexShrink: 0,
+          position: "fixed", top: 0, left: 0, right: 0,
+          height: 60, zIndex: 200,
           display: "flex", alignItems: "center", gap: 10,
           padding: "0 20px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
           background: "rgba(6,6,6,0.98)",
-          position: "sticky", top: 0, zIndex: 50,
-          transform: headerVisible ? "translateY(0)" : "translateY(-100%)",
-          transition: "transform 0.3s ease",
+          backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
         }}>
           <FlipIndexTitle />
           <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 9, letterSpacing: 1.2, textTransform: "uppercase", fontStyle: "italic", marginLeft: 4 }}>Watch your favorite protocol get flipped</span>
@@ -3227,6 +3221,9 @@ export default function ProtocolWars() {
             </a>
           </div>
         </div>
+
+        {/* spacer so content starts below fixed header */}
+        <div style={{ height: 60, flexShrink: 0 }} />
 
         <div style={{ flex: 1, display: "flex" }}>
 
@@ -3607,7 +3604,7 @@ export default function ProtocolWars() {
                   })}
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+                <XAxis dataKey="label" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} interval={Math.max(0, Math.floor(displayData.length / 6) - 1)} />
                 <YAxis tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} domain={stacked ? [0, 100] : [0, dataMax => Math.min(100, Math.ceil(dataMax / 5) * 5 + 5)]} />
                 <Tooltip
                   content={<CustomTooltip protocols={visibleProtocols} rawDataBySlug={rawDataBySlug} dataType={currentDataType} />}
