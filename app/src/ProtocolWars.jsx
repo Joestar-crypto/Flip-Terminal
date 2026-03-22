@@ -1798,7 +1798,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
 
   return (
     <>
-    <div className="arena-neon-wrap" style={{ borderRadius: 14, paddingBottom: 8 }}>
+    <div className="arena-neon-wrap" style={{ borderRadius: 14 }}>
     <div style={{ display: "flex", flexDirection: "column", gap: 0, borderRadius: 12, overflow: "hidden" }}>
       {/* ── Fight Banner ── */}
       <div style={{
@@ -1897,12 +1897,13 @@ function MatchupBattle({ matchup, onViewProtocol }) {
 
       {/* ── Metric tabs + Timeframe row ── */}
       <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+        display: "flex", flexDirection: "column",
         padding: "10px 16px", background: "#0e0e0e",
         borderTop: "1px solid rgba(255,255,255,0.07)",
-        flexWrap: "wrap", gap: 8, flexShrink: 0,
+        gap: 8, flexShrink: 0,
       }}>
-        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+        {/* Row 1: Metric tabs */}
+        <div style={{ display: "flex", gap: 4 }}>
           {matchup.metrics.map(m => {
             const d = metricData[m.key] || [];
             const lastPt = d[d.length - 1];
@@ -1912,10 +1913,11 @@ function MatchupBattle({ matchup, onViewProtocol }) {
             return (
               <button key={m.key} onClick={() => setActiveMetricKey(m.key)} style={{
                 display: "flex", flexDirection: "column", alignItems: "center", gap: 1,
+                flex: 1,
                 background: isActive ? "rgba(255,255,255,0.1)" : "#0e0e0e",
                 border: `1px solid ${isActive ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}`,
                 borderRadius: 6, color: isActive ? "#ffffff" : "rgba(255,255,255,0.55)",
-                padding: "5px 14px", cursor: "pointer", fontSize: 11, fontWeight: 700, fontFamily: "inherit",
+                padding: "6px 8px", cursor: "pointer", fontSize: 11, fontWeight: 700, fontFamily: "inherit",
                 letterSpacing: 0.5, transition: "all .15s",
               }}>
                 <span>{m.label}</span>
@@ -1930,6 +1932,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
             );
           })}
         </div>
+        {/* Row 2: Time ranges + actions */}
         <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
           {TIME_RANGES.map(r => (
             <button key={r.days} onClick={() => setTimeRange(r.days)} style={{
@@ -1940,7 +1943,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
               transition: "all .15s",
             }}>{r.label}</button>
           ))}
-          <div style={{ width: 1, height: 14, background: "rgba(255,255,255,0.1)", margin: "0 4px" }} />
+          <div style={{ flex: 1 }} />
           <button
             onClick={() => { savedScrollRef.current = window.scrollY; setShowBattleAI(s => !s); }}
             style={{
@@ -1980,6 +1983,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
         borderTop: "1px solid rgba(255,255,255,0.07)",
         overflow: "hidden",
         height: 380, display: "flex", flexDirection: "column",
+        paddingBottom: 16,
       }}>
         {!isLoading && lShare != null && (
           <>
@@ -2375,10 +2379,25 @@ function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId, onViewPr
       </div>
 
       <div style={{ paddingTop: 70, paddingBottom: 24, paddingLeft: 16, paddingRight: 16, maxWidth: 960, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
-        {/* ── Battle selector ── horizontal scrollable strip */}
-        <div style={{ display: "flex", gap: 10, overflowX: "auto", flexShrink: 0, paddingBottom: 4, paddingTop: 4, scrollbarWidth: "none", msOverflowStyle: "none" }}>
+
+        {/* ── Arena hero title ── */}
+        <div style={{ textAlign: "center", marginBottom: 8, paddingTop: 32, paddingBottom: 8 }}>
+          <div style={{
+            fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: 68,
+            background: "linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.4) 100%)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            filter: "drop-shadow(0 0 40px rgba(255,255,255,0.2)) drop-shadow(0 6px 24px rgba(0,0,0,0.9))",
+            lineHeight: 1, letterSpacing: 12,
+          }}>ARENA</div>
+          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: 5, textTransform: "uppercase", marginTop: 10, fontFamily: "'Orbitron',sans-serif" }}>
+            {MATCHUPS.length} ACTIVE BATTLES · MARKET SHARE DOMINANCE
+          </div>
+        </div>
+
+        {/* ── Battle selector ── wrapping grid */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, paddingBottom: 4, paddingTop: 4 }}>
           {MATCHUPS.map(m => (
-            <div key={m.id} style={{ flexShrink: 0, width: 158 }}>
+            <div key={m.id} style={{ flex: "1 1 140px", minWidth: 130, maxWidth: 190 }}>
               <BattleCard
                 matchup={m}
                 isActive={m.id === selectedMatchupId}
@@ -2406,7 +2425,7 @@ const EXPLORER_METRICS = [
 
 function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
   const [metricData, setMetricData] = useState({});
-  const [timeRange, setTimeRange]   = useState(90);
+  const [timeRange, setTimeRange]   = useState(365);
   const [done, setDone]             = useState(false);
   const fetchRef = useRef(0);
 
@@ -2459,71 +2478,51 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
   const accentColor = PROTOCOL_BRAND_COLORS[slug] || "#6366f1";
 
   return (
-    <div style={{ maxWidth: 1440, margin: "0 auto", padding: "24px 32px", animation: "fadeIn .3s ease" }}>
-      {/* Back */}
-      <button onClick={onBack} style={{
-        display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 20,
-        background: "transparent", border: "none", cursor: "pointer",
-        color: "rgba(255,255,255,0.45)", fontSize: 12, fontFamily: "inherit", fontWeight: 600,
-      }}
-        onMouseEnter={e => { e.currentTarget.style.color = "rgba(255,255,255,0.9)"; }}
-        onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-        Back
-      </button>
+    <>
+      {/* Fixed header */}
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, background: "rgba(10,10,10,0.96)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", height: 60, display: "flex", alignItems: "center", gap: 16 }}>
+          <button onClick={onBack} style={{ background: "#0e0e0e", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 8, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
+            ← Back
+          </button>
+          {logo && <img src={logo} alt={name} onError={e => { e.target.style.display = "none"; }} style={{ width: 28, height: 28, borderRadius: 7, objectFit: "cover", border: `1.5px solid ${accentColor}55` }} />}
+          <span style={{ fontFamily: "'Orbitron',sans-serif", color: "#e8e8e8", fontSize: 13, fontWeight: 900, letterSpacing: 4 }}>{name.toUpperCase()}</span>
+        </div>
+      </div>
 
-      {/* Protocol header card */}
-      <div style={{
-        background: "#0e0e0e", border: `1px solid ${accentColor}33`,
-        borderRadius: 14, padding: "22px 28px", marginBottom: 24,
-        display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+      {/* Scrollable body */}
+      <div style={{ paddingTop: 70, paddingBottom: 40, paddingLeft: 24, paddingRight: 24, maxWidth: 1200, margin: "0 auto", width: "100%", animation: "fadeIn .3s ease" }}>
+
+        {/* Protocol identity */}
+        <div style={{ paddingTop: 28, paddingBottom: 24, display: "flex", alignItems: "center", gap: 18 }}>
           <div style={{ position: "relative", flexShrink: 0 }}>
-            <img
-              src={logo || `https://icons.llama.fi/${slug}.png`} alt={name}
+            <img src={logo || `https://icons.llama.fi/${slug}.png`} alt={name}
               onError={e => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
-              style={{ width: 54, height: 54, borderRadius: 13, objectFit: "cover", border: `2px solid ${accentColor}44` }}
-            />
-            <div style={{
-              display: "none", width: 54, height: 54, borderRadius: 13,
-              background: accentColor + "22", border: `2px solid ${accentColor}44`,
-              alignItems: "center", justifyContent: "center",
-              fontSize: 24, fontWeight: 800, color: accentColor,
-            }}>{name[0]?.toUpperCase()}</div>
+              style={{ width: 60, height: 60, borderRadius: 14, objectFit: "cover", border: `2px solid ${accentColor}55` }} />
+            <div style={{ display: "none", width: 60, height: 60, borderRadius: 14, background: accentColor + "22", border: `2px solid ${accentColor}44`, alignItems: "center", justifyContent: "center", fontSize: 26, fontWeight: 800, color: accentColor }}>{name[0]?.toUpperCase()}</div>
           </div>
           <div>
-            <h1 style={{ color: "#ffffff", fontWeight: 800, fontSize: 26, margin: "0 0 4px 0", lineHeight: 1 }}>{name}</h1>
+            <h1 style={{ color: "#ffffff", fontWeight: 800, fontSize: 32, margin: "0 0 5px 0", lineHeight: 1 }}>{name}</h1>
             {isAggregated ? (
-              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.6 }}>
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
-                </svg>
-                Aggregated across all versions
-                <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-                <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 10 }}>
-                  {allSlugs.slice(0, 4).map(s => protocolMeta[s]?.name || s).join(" · ")}
-                  {allSlugs.length > 4 ? ` +${allSlugs.length - 4} more` : ""}
-                </span>
+              <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11 }}>
+                Aggregated · {allSlugs.slice(0, 5).map(s => protocolMeta[s]?.name || s).join(" · ")}{allSlugs.length > 5 ? ` +${allSlugs.length - 5} more` : ""}
               </div>
             ) : (
-              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11 }}>{slug}</div>
+              <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11 }}>{slug}</div>
             )}
           </div>
         </div>
-        <div style={{ display: "flex", gap: 2, background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: 2 }}>
-          {[{ l: "30D", d: 30 }, { l: "90D", d: 90 }, { l: "180D", d: 180 }, { l: "1Y", d: 365 }].map(({ l, d }) => (
-            <button key={l} onClick={() => setTimeRange(d)} style={{
-              background: timeRange === d ? "rgba(255,255,255,0.1)" : "transparent",
-              border: timeRange === d ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
-              color: timeRange === d ? "#fff" : "rgba(255,255,255,0.55)",
-              borderRadius: 4, padding: "4px 14px", cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: "inherit",
-            }}>{l}</button>
-          ))}
-        </div>
+
+      {/* Time range selector */}
+      <div style={{ display: "flex", gap: 2, background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: 2, alignSelf: "flex-start", marginBottom: 20 }}>
+        {[{ l: "90D", d: 90 }, { l: "180D", d: 180 }, { l: "1Y", d: 365 }, { l: "2Y", d: 730 }, { l: "3Y", d: 1095 }, { l: "ALL", d: 3650 }].map(({ l, d }) => (
+          <button key={l} onClick={() => setTimeRange(d)} style={{
+            background: timeRange === d ? "rgba(255,255,255,0.1)" : "transparent",
+            border: timeRange === d ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
+            color: timeRange === d ? "#fff" : "rgba(255,255,255,0.55)",
+            borderRadius: 4, padding: "4px 14px", cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: "inherit",
+          }}>{l}</button>
+        ))}
       </div>
 
       {/* Metrics grid */}
@@ -2538,7 +2537,7 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
           <div style={{ color: "rgba(255,255,255,0.2)", fontSize: 12, marginTop: 4 }}>Try searching for a specific version like "aave-v3"</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
           {available.map(m => {
             const series = metricData[m.key];
             const latest = series[series.length - 1]?.value;
@@ -2559,7 +2558,7 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
                     <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 400, fontSize: 11 }}> vs {timeRange}d ago</span>
                   </div>
                 )}
-                <ResponsiveContainer width="100%" height={110} style={{ marginTop: 14 }}>
+                <ResponsiveContainer width="100%" height={160} style={{ marginTop: 14 }}>
                   <AreaChart data={chartPts} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
                     <defs>
                       <linearGradient id={`xg-${m.key}`} x1="0" y1="0" x2="0" y2="1">
@@ -2582,7 +2581,8 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
           })}
         </div>
       )}
-    </div>
+      </div>{/* end scrollable body */}
+    </>
   );
 }
 
@@ -3205,6 +3205,13 @@ export default function ProtocolWars() {
           setSelectedMatchupId={setSelectedMatchupId}
           onViewProtocol={(slug) => { setPrevView("1v1"); setSearchProtocolSlug(slug); setView("protocol"); }}
         />
+      ) : view === "protocol" ? (
+        <ProtocolExplorer
+          slug={searchProtocolSlug}
+          protocolMeta={protocolMeta}
+          protocolsByParent={protocolsByParent}
+          onBack={() => { setView(prevView); setSearchProtocolSlug(null); setSearchQuery(""); setPrevView("main"); }}
+        />
       ) : (
       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
@@ -3368,14 +3375,6 @@ export default function ProtocolWars() {
 
         {/* ── Main area ── */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-        {view === "protocol" ? (
-          <ProtocolExplorer
-            slug={searchProtocolSlug}
-            protocolMeta={protocolMeta}
-            protocolsByParent={protocolsByParent}
-            onBack={() => { setView(prevView); setSearchProtocolSlug(null); setSearchQuery(""); setPrevView("main"); }}
-          />
-        ) : (
         <div style={{ flex: 1, padding: "24px 28px", minWidth: 0 }}>
 
         {/* ── Chain Selector (DEX and Lending) ── */}
@@ -3901,7 +3900,6 @@ export default function ProtocolWars() {
         {/* Battle Stats removed */}
 
         </div>
-        )}
         <footer style={{
           borderTop: "1px solid rgba(255,255,255,0.06)",
           padding: "20px 28px",
