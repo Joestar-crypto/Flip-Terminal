@@ -195,7 +195,8 @@ const PROTOCOL_BRAND_COLORS = {
   "tether-gold":         "#F5D100",  // Tether Gold — gold
   "blackrock-buidl":     "#1E3A5F",  // BlackRock BUIDL — dark navy
   "ondo-yield-assets":   "#1A6CF4",  // Ondo Finance — blue
-  "centrifuge-protocol": "#E87C35",  // Centrifuge — orange
+  "centrifuge-protocol": "#E87C35",  // Centrifuge Protocol — orange
+  "centrifuge":          "#E87C35",  // Centrifuge — orange
   "superstate-ustb":     "#6366F1",  // Superstate — indigo
   "spiko":               "#0EA5E9",  // Spiko — sky blue
   "anemoy-capital":      "#14B8A6",  // Anemoy — teal
@@ -283,19 +284,19 @@ const SEGMENTS = {
     label: "Perps",
     dataType: "fees",
     rivalries: [],
-    defaultSlugs: ["hyperliquid-perps", "edgex-perps", "aster-perps", "lighter-perps", "grvt-perps"],
+    defaultSlugs: ["hyperliquid-perps", "gmx", "aster-perps", "edgex-perps", "synthetix"],
   },
   Oracles: {
     label: "Oracles",
     dataType: "fees",
     rivalries: [],
-    defaultSlugs: ["chainlink", "redstone", "pyth", "api3", "band-protocol"],
+    defaultSlugs: ["chainlink", "redstone", "pyth"],
   },
   "Liquid Staking": {
     label: "Liquid Staking",
     dataType: "tvl",
     rivalries: [],
-    defaultSlugs: ["lido", "ether.fi", "rocket-pool", "jito-liquid-staking", "mantle-lsd"],
+    defaultSlugs: ["lido", "ether.fi", "rocket-pool", "jito-liquid-staking", "stader"],
   },
   Stablecoins: {
     label: "Stablecoins",
@@ -313,13 +314,13 @@ const SEGMENTS = {
     label: "Consumer",
     dataType: "volume",
     rivalries: [],
-    defaultSlugs: ["polymarket", "kalshi", "azuro", "overtime-markets", "parcl", "opinion-rain", "predict-fun"],
+    defaultSlugs: ["polymarket", "kalshi", "predict-fun"],
   },
   "Launchpads": {
     label: "Launchpads",
     dataType: "fees",
     rivalries: [],
-    defaultSlugs: ["pump.fun", "pinksale", "virtuals-protocol", "sunpump", "four.meme", "believe"],
+    defaultSlugs: ["pump.fun", "pinksale", "virtuals-protocol", "sunpump", "four.meme"],
   },
   "TCG": {
     label: "TCG",
@@ -331,7 +332,7 @@ const SEGMENTS = {
     label: "RWA",
     dataType: "tvl",
     rivalries: [],
-    defaultSlugs: ["tether-gold", "blackrock-buidl", "ondo-yield-assets", "centrifuge-protocol", "superstate-ustb"],
+    defaultSlugs: ["centrifuge", "maple", "ondo-yield-assets", "blackrock-buidl", "superstate-ustb"],
   },
   "ETF": {
     label: "ETF",
@@ -349,7 +350,7 @@ const SEGMENTS = {
     label: "Aggregators",
     dataType: "aggregatorVolume",
     rivalries: [],
-    defaultSlugs: ["kyberswap-aggregator", "jupiter-aggregator", "cowswap", "okx-swap", "odos"],
+    defaultSlugs: ["1inch", "jupiter-aggregator", "cowswap", "kyberswap-aggregator", "odos"],
   },
 };
 
@@ -421,11 +422,14 @@ const DEX_CHAINS = {
 };
 
 const TIME_RANGES = [
-  { label: "7D",  days: 7   },
-  { label: "30D", days: 30  },
-  { label: "90D", days: 90  },
-  { label: "6M",  days: 182 },
-  { label: "1Y",  days: 365 },
+  { label: "7D",  days: 7    },
+  { label: "30D", days: 30   },
+  { label: "90D", days: 90   },
+  { label: "6M",  days: 182  },
+  { label: "1Y",  days: 365  },
+  { label: "2Y",  days: 730  },
+  { label: "3Y",  days: 1095 },
+  { label: "ALL", days: 3650 },
 ];
 
 // ─── Autocomplete catalogs — chain-specific for DEX & Lending ────────────────
@@ -566,6 +570,8 @@ const SEGMENT_PROTOCOLS = {
   ],
   Perps: [
     { slug: "hyperliquid-perps",          name: "Hyperliquid" },
+    { slug: "gmx",                        name: "GMX" },
+    { slug: "synthetix",                   name: "Synthetix" },
     { slug: "edgex-perps",                name: "edgeX" },
     { slug: "aster-perps",                name: "Aster" },
     { slug: "lighter-perps",              name: "Lighter" },
@@ -595,10 +601,12 @@ const SEGMENT_PROTOCOLS = {
     { slug: "emporium",        name: "Emporium" },
   ],
   "RWA": [
+    { slug: "centrifuge",          name: "Centrifuge" },
+    { slug: "maple",               name: "Maple" },
     { slug: "tether-gold",         name: "Tether Gold" },
     { slug: "blackrock-buidl",     name: "BlackRock BUIDL" },
     { slug: "ondo-yield-assets",   name: "Ondo" },
-    { slug: "centrifuge-protocol", name: "Centrifuge" },
+    { slug: "centrifuge-protocol", name: "Centrifuge Protocol" },
     { slug: "superstate-ustb",     name: "Superstate" },
     { slug: "spiko",               name: "Spiko" },
     { slug: "anemoy-capital",      name: "Anemoy" },
@@ -653,7 +661,7 @@ function formatBytes(n) {
   return `${n.toFixed(0)} B`;
 }
 function formatDate(ts) {
-  return new Date(ts * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return new Date(ts * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 function slugToDisplay(slug) {
   return slug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -1679,10 +1687,32 @@ const MATCHUPS = [
       { key: "openInterest", label: "Open Interest", dataType: "openInterest" },
     ],
   },
+  {
+    id: "compound-aave",
+    left:  { slug: "compound-v2", label: "Compound", color: getColor("compound", 0) },
+    right: { slug: "aave",        label: "Aave",     color: getColor("aave",     1) },
+    category: "The Lending Flip",
+    metrics: [
+      { key: "tvl",      label: "TVL",          dataType: "tvl"      },
+      { key: "borrowed", label: "Active Loans", dataType: "borrowed" },
+    ],
+  },
+  {
+    id: "dydx-hyperliquid",
+    left:  { slug: "dydx",             label: "dYdX",        color: getColor("dydx",             0) },
+    right: { slug: "hyperliquid-perps", label: "Hyperliquid", color: getColor("hyperliquid-perps", 1) },
+    category: "Perps Revolution",
+    metrics: [
+      { key: "perpsVolume",  label: "Volume",        dataType: "perpsVolume"  },
+      { key: "openInterest", label: "Open Interest", dataType: "openInterest" },
+      { key: "fees",         label: "Fees",          dataType: "fees"         },
+    ],
+  },
 ];
 
 // ─── MatchupBattle: one self-contained battle card ────────────────────────────
 function MatchupBattle({ matchup, onViewProtocol }) {
+  const [fullMetricData, setFullMetricData] = useState({});
   const [metricData, setMetricData]       = useState({});
   const [metricLoading, setMetricLoading] = useState(() => {
     const init = {};
@@ -1706,11 +1736,12 @@ function MatchupBattle({ matchup, onViewProtocol }) {
 
   useEffect(() => {
     const fetchId = ++fetchIdRef.current;
+    setFullMetricData({});
     setMetricData({});
     const init = {};
     matchup.metrics.forEach(m => { init[m.key] = true; });
     setMetricLoading(init);
-    const cutoff = getTodayTs() - timeRange * 86400;
+    const cutoff = getTodayTs() - 3650 * 86400; // fetch full history once
     const { left, right } = matchup;
 
     matchup.metrics.forEach(async metric => {
@@ -1727,7 +1758,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
           return;
         }
         const allDates = new Set([...lr.series.map(d => d.date), ...rr.series.map(d => d.date)]);
-        const dates = [...allDates].filter(d => d >= cutoff).sort((a, b) => a - b);
+        const dates = [...allDates].sort((a, b) => a - b);
         const lm = {}, rm = {};
         lr.series.forEach(d => { lm[d.date] = d.value; });
         rr.series.forEach(d => { rm[d.date] = d.value; });
@@ -1736,14 +1767,47 @@ function MatchupBattle({ matchup, onViewProtocol }) {
           if (lm[ts] != null) ll = lm[ts];
           if (rm[ts] != null) rl = rm[ts];
           const lv = ll ?? 0, rv = rl ?? 0, tot = lv + rv;
-          if (tot === 0) return null;
+          if (tot === 0 || lv === 0 || rv === 0) return null;
           return { label: formatDate(ts), ts, [left.slug]: parseFloat(((lv / tot) * 100).toFixed(2)), [right.slug]: parseFloat(((rv / tot) * 100).toFixed(2)) };
         }).filter(Boolean);
-        setMetricData(prev => ({ ...prev, [metric.key]: chart }));
+        setFullMetricData(prev => ({ ...prev, [metric.key]: chart }));
       } catch {}
       finally { if (fetchId === fetchIdRef.current) setMetricLoading(prev => ({ ...prev, [metric.key]: false })); }
     });
-  }, [matchup.id, timeRange]);
+  }, [matchup.id]);
+
+  // Derive filtered view client-side — no API re-fetch on timeRange change
+  useEffect(() => {
+    const cutoff = getTodayTs() - timeRange * 86400;
+    const filtered = {};
+    Object.entries(fullMetricData).forEach(([key, arr]) => { filtered[key] = arr.filter(d => d.ts >= cutoff); });
+    setMetricData(filtered);
+  }, [fullMetricData, timeRange]);
+
+  // How many days of history we actually have (drives visible time buttons)
+  const maxAvailableDays = useMemo(() => {
+    if (Object.keys(fullMetricData).length === 0) return null;
+    let minTs = Infinity;
+    Object.values(fullMetricData).forEach(arr => { if (arr.length > 0) minTs = Math.min(minTs, arr[0].ts); });
+    if (minTs === Infinity) return null;
+    return Math.ceil((getTodayTs() - minTs) / 86400);
+  }, [fullMetricData]);
+
+  // Available time range buttons for this matchup
+  const availableRanges = useMemo(() => {
+    if (maxAvailableDays === null) return TIME_RANGES;
+    return TIME_RANGES.filter(r => {
+      if (r.label === "ALL") return maxAvailableDays > 1095;
+      return r.days <= maxAvailableDays + 14;
+    });
+  }, [maxAvailableDays]);
+
+  // Auto-select best timeRange when data loads
+  useEffect(() => {
+    if (availableRanges.length > 0 && !availableRanges.find(r => r.days === timeRange)) {
+      setTimeRange(availableRanges[availableRanges.length - 1].days);
+    }
+  }, [availableRanges]);
 
   // Overall winner from first metric
   const fd = metricData[matchup.metrics[0]?.key] || [];
@@ -1934,7 +1998,7 @@ function MatchupBattle({ matchup, onViewProtocol }) {
         </div>
         {/* Row 2: Time ranges + actions */}
         <div style={{ display: "flex", gap: 3, alignItems: "center" }}>
-          {TIME_RANGES.map(r => (
+          {availableRanges.map(r => (
             <button key={r.days} onClick={() => setTimeRange(r.days)} style={{
               background: timeRange === r.days ? "rgba(255,255,255,0.08)" : "transparent",
               border: `1px solid ${timeRange === r.days ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.07)"}`,
@@ -2424,9 +2488,10 @@ const EXPLORER_METRICS = [
 ];
 
 function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
-  const [metricData, setMetricData] = useState({});
-  const [timeRange, setTimeRange]   = useState(365);
-  const [done, setDone]             = useState(false);
+  const [fullMetricData, setFullMetricData] = useState({});
+  const [metricData, setMetricData]         = useState({});
+  const [timeRange, setTimeRange]           = useState(365);
+  const [done, setDone]                     = useState(false);
   const fetchRef = useRef(0);
 
   // Find all related slugs (all versions sharing the same parent)
@@ -2444,9 +2509,10 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
 
   useEffect(() => {
     const fetchId = ++fetchRef.current;
+    setFullMetricData({});
     setMetricData({});
     setDone(false);
-    const cutoff = getTodayTs() - timeRange * 86400;
+    const cutoff = getTodayTs() - 3650 * 86400; // fetch full history once
 
     let pending = EXPLORER_METRICS.length;
     const finish = () => { pending--; if (pending <= 0 && fetchRef.current === fetchId) setDone(true); };
@@ -2466,13 +2532,46 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
         series.forEach(s => s.forEach(({ date, value }) => { byDate[date] = (byDate[date] || 0) + value; }));
         const agg = Object.entries(byDate)
           .map(([d, v]) => ({ date: Number(d), value: v }))
-          .sort((a, b) => a.date - b.date)
-          .filter(d => d.date >= cutoff);
-        if (agg.length) setMetricData(prev => ({ ...prev, [m.key]: agg }));
+          .sort((a, b) => a.date - b.date);
+        if (agg.length) setFullMetricData(prev => ({ ...prev, [m.key]: agg }));
       } catch {}
       finish();
     });
-  }, [slug, timeRange, allSlugs]);
+  }, [slug, allSlugs]); // timeRange no longer triggers re-fetch
+
+  // Derive filtered view client-side — no API re-fetch on timeRange change
+  useEffect(() => {
+    const cutoff = getTodayTs() - timeRange * 86400;
+    const filtered = {};
+    Object.entries(fullMetricData).forEach(([key, arr]) => { filtered[key] = arr.filter(d => d.date >= cutoff); });
+    setMetricData(filtered);
+  }, [fullMetricData, timeRange]);
+
+  // How many days of history we actually have (drives visible time buttons)
+  const maxAvailableDays = useMemo(() => {
+    if (Object.keys(fullMetricData).length === 0) return null;
+    let minTs = Infinity;
+    Object.values(fullMetricData).forEach(arr => { if (arr.length > 0) minTs = Math.min(minTs, arr[0].date); });
+    if (minTs === Infinity) return null;
+    return Math.ceil((getTodayTs() - minTs) / 86400);
+  }, [fullMetricData]);
+
+  // Available time range buttons for this protocol
+  const explorerRanges = useMemo(() => {
+    const all = [{ l: "90D", d: 90 }, { l: "180D", d: 180 }, { l: "1Y", d: 365 }, { l: "2Y", d: 730 }, { l: "3Y", d: 1095 }, { l: "ALL", d: 3650 }];
+    if (maxAvailableDays === null) return all;
+    return all.filter(({ l, d }) => {
+      if (l === "ALL") return maxAvailableDays > 1095;
+      return d <= maxAvailableDays + 14;
+    });
+  }, [maxAvailableDays]);
+
+  // Auto-select best timeRange when data loads
+  useEffect(() => {
+    if (explorerRanges.length > 0 && !explorerRanges.find(r => r.d === timeRange)) {
+      setTimeRange(explorerRanges[explorerRanges.length - 1].d);
+    }
+  }, [explorerRanges]);
 
   const available = EXPLORER_METRICS.filter(m => metricData[m.key]?.length > 0);
   const accentColor = PROTOCOL_BRAND_COLORS[slug] || "#6366f1";
@@ -2515,7 +2614,7 @@ function ProtocolExplorer({ slug, protocolMeta, protocolsByParent, onBack }) {
 
       {/* Time range selector */}
       <div style={{ display: "flex", gap: 2, background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: 2, alignSelf: "flex-start", marginBottom: 20 }}>
-        {[{ l: "90D", d: 90 }, { l: "180D", d: 180 }, { l: "1Y", d: 365 }, { l: "2Y", d: 730 }, { l: "3Y", d: 1095 }, { l: "ALL", d: 3650 }].map(({ l, d }) => (
+        {explorerRanges.map(({ l, d }) => (
           <button key={l} onClick={() => setTimeRange(d)} style={{
             background: timeRange === d ? "rgba(255,255,255,0.1)" : "transparent",
             border: timeRange === d ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
@@ -2636,6 +2735,7 @@ export default function ProtocolWars() {
   const [customInput, setCustomInput] = useState("");
   const [slugs, setSlugs] = useState(DEX_CHAINS.Ethereum.slugs);
   const [protocols, setProtocols] = useState([]);
+  const [fullChartData, setFullChartData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [rawDataBySlug, setRawDataBySlug] = useState({});
   const [loading, setLoading] = useState(true);
@@ -2778,12 +2878,12 @@ export default function ProtocolWars() {
       .catch(() => {});
   }, []);
 
-  const fetchData = useCallback(async (currentSlugs, days, dataType, chain) => {
+  const fetchData = useCallback(async (currentSlugs, dataType, chain) => {
     const fetchId = ++fetchIdRef.current;
     setLoading(true);
     setErrors({});
 
-    const cutoff = getTodayTs() - days * 86400;
+    const cutoff = getTodayTs() - 3650 * 86400; // fetch full history once
     const newErrors = {};
     const rawBySlug = {};
     const apiMeta = {};
@@ -2806,23 +2906,17 @@ export default function ProtocolWars() {
       const validSlugs = currentSlugs.filter(s => rawBySlug[s] && !newErrors[s]);
       if (validSlugs.length === 0) {
         setErrors(newErrors);
+        setFullChartData([]);
         setChartData([]);
         setProtocols([]);
         setLoading(false);
         return;
       }
 
-      // Date alignment — find union, fallback to intersection if needed
-      const dateSets = validSlugs.map(s => new Set(rawBySlug[s].map(d => d.date)));
-      let commonDates = [...dateSets[0]]
-        .filter(d => dateSets.every(set => set.has(d)))
-        .sort((a, b) => a - b);
-
-      if (commonDates.length < 5) {
-        const allDates = new Set();
-        validSlugs.forEach(s => rawBySlug[s].forEach(d => allDates.add(d.date)));
-        commonDates = [...allDates].filter(d => d >= cutoff).sort((a, b) => a - b);
-      }
+      // Date alignment — always use union so chart spans full category history
+      const allDates = new Set();
+      validSlugs.forEach(s => rawBySlug[s].forEach(d => allDates.add(d.date)));
+      const commonDates = [...allDates].sort((a, b) => a - b);
 
       // Value lookup maps
       const valueMaps = {};
@@ -2849,8 +2943,14 @@ export default function ProtocolWars() {
       const chart = commonDates.map(ts => {
         const vals = {};
         let total = 0;
-        validSlugs.forEach(s => { vals[s] = Math.max(0, interp[s][ts] ?? 0); total += vals[s]; });
-        if (total === 0) return null;
+        let actorsWithData = 0;
+        validSlugs.forEach(s => {
+          const v = Math.max(0, interp[s][ts] ?? 0);
+          vals[s] = v;
+          total += v;
+          if (v > 0) actorsWithData++;
+        });
+        if (total === 0 || actorsWithData < 2) return null;
         const row = { label: formatDate(ts), ts };
         validSlugs.forEach(s => { row[s] = parseFloat(((vals[s] / total) * 100).toFixed(2)); });
         return row;
@@ -2868,7 +2968,7 @@ export default function ProtocolWars() {
       if (fetchId !== fetchIdRef.current) return;
       setErrors(newErrors);
       setRawDataBySlug(rawBySlug);
-      setChartData(chart);
+      setFullChartData(chart);
       setProtocols(protocolObjs);
 
       // Fetch context data in background (non-blocking)
@@ -2931,6 +3031,34 @@ export default function ProtocolWars() {
     })));
   }, [protocolMeta]);
 
+  // Derive filtered chartData from fullChartData + timeRange (client-side, no re-fetch)
+  useEffect(() => {
+    if (fullChartData.length === 0) { setChartData([]); return; }
+    const cutoff = getTodayTs() - timeRange * 86400;
+    setChartData(fullChartData.filter(row => row.ts >= cutoff));
+  }, [fullChartData, timeRange]);
+
+  const maxAvailableDays = useMemo(() => {
+    if (fullChartData.length === 0) return null;
+    return Math.ceil((getTodayTs() - fullChartData[0].ts) / 86400);
+  }, [fullChartData]);
+
+  // Available time range buttons for this category
+  const mainAvailableRanges = useMemo(() => {
+    if (maxAvailableDays === null) return TIME_RANGES;
+    return TIME_RANGES.filter(r => {
+      if (r.label === "ALL") return maxAvailableDays > 1095;
+      return r.days <= maxAvailableDays + 14;
+    });
+  }, [maxAvailableDays]);
+
+  // Auto-select best timeRange when data loads or category changes
+  useEffect(() => {
+    if (mainAvailableRanges.length > 0 && !mainAvailableRanges.find(r => r.days === timeRange)) {
+      setTimeRange(mainAvailableRanges[mainAvailableRanges.length - 1].days);
+    }
+  }, [mainAvailableRanges]);
+
   useEffect(() => {
     if (slugs.length > 0) {
       const rivalry = SEGMENTS[activeSegment]?.rivalries[activeRivalry];
@@ -2952,9 +3080,9 @@ export default function ProtocolWars() {
                   : activeSegment === "Aggregators"
                     ? aggregatorsMetric
                     : (SEGMENTS[activeSegment]?.dataType || "tvl");
-      fetchData(slugs, timeRange, dataType, chain);
+      fetchData(slugs, dataType, chain);
     }
-  }, [slugs, timeRange, activeSegment, activeRivalry, dexChain, lendingChain, lendingMetric, dexMetric, perpsMetric, blockchainsMetric, consumerMetric, aggregatorsMetric, fetchData]);
+  }, [slugs, activeSegment, activeRivalry, dexChain, lendingChain, lendingMetric, dexMetric, perpsMetric, blockchainsMetric, consumerMetric, aggregatorsMetric, fetchData]);
 
   const handleSegmentChange = seg => {
     setActiveSegment(seg);
@@ -3526,7 +3654,7 @@ export default function ProtocolWars() {
           )}
           <div style={{ flex: 1 }} />
           <div style={{ display: "flex", gap: 2, background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 5, padding: "2px" }}>
-            {TIME_RANGES.map(({ label, days }) => (
+            {mainAvailableRanges.map(({ label, days }) => (
               <button key={label} onClick={() => setTimeRange(days)} style={{
                 background: timeRange === days ? "rgba(255,255,255,0.1)" : "transparent",
                 border: timeRange === days ? "1px solid rgba(255,255,255,0.18)" : "1px solid transparent",
@@ -3614,7 +3742,7 @@ export default function ProtocolWars() {
                   })}
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} interval={Math.max(0, Math.floor(displayData.length / 6) - 1)} />
+                <XAxis dataKey="label" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} interval={Math.max(0, Math.floor(displayData.length / 6) - 1)} tickFormatter={v => v.split(",")[0]} />
                 <YAxis tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} domain={stacked ? [0, 100] : [0, dataMax => Math.min(100, Math.ceil(dataMax / 5) * 5 + 5)]} />
                 <Tooltip
                   content={<CustomTooltip protocols={visibleProtocols} rawDataBySlug={rawDataBySlug} dataType={currentDataType} />}
