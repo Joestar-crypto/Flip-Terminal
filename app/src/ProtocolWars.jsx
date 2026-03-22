@@ -1049,7 +1049,7 @@ function CustomTooltip({ active, payload, label, protocols, rawDataBySlug, dataT
 }
 
 // ─── Fighter Card ─────────────────────────────────────────────────────────────
-function FighterCard({ protocol, color, isLeading, chartData, dataType }) {
+function FighterCard({ protocol, color, isLeading, chartData, dataType, onClick }) {
   const currentShare = chartData?.length ? chartData[chartData.length - 1]?.[protocol.slug] : null;
   const share30dAgo = (() => {
     if (!chartData?.length) return null;
@@ -1065,14 +1065,18 @@ function FighterCard({ protocol, color, isLeading, chartData, dataType }) {
   }, 0) ?? 0;
 
   return (
-    <div style={{
-      background: "#0e0e0e",
-      border: `1px solid ${isLeading ? color + "cc" : "rgba(255,255,255,0.15)"}`,
-      borderRadius: 7, padding: "7px 10px",
-      flex: "1 1 100px", minWidth: 90,
-      position: "relative", transition: "all 0.3s ease",
-      boxShadow: isLeading ? `0 4px 20px ${color}44` : "none",
-    }}>
+    <div
+      onClick={onClick}
+      style={{
+        background: "#0e0e0e",
+        border: `1px solid ${isLeading ? color + "cc" : "rgba(255,255,255,0.15)"}`,
+        borderRadius: 7, padding: "7px 10px",
+        flex: "1 1 100px", minWidth: 90,
+        position: "relative", transition: "all 0.3s ease",
+        boxShadow: isLeading ? `0 4px 20px ${color}44` : "none",
+        cursor: onClick ? "pointer" : "default",
+      }}
+    >
       {isLeading && (
         <div style={{
           position: "absolute", top: 10, right: 10,
@@ -1678,7 +1682,7 @@ const MATCHUPS = [
 ];
 
 // ─── MatchupBattle: one self-contained battle card ────────────────────────────
-function MatchupBattle({ matchup }) {
+function MatchupBattle({ matchup, onViewProtocol }) {
   const [metricData, setMetricData]       = useState({});
   const [metricLoading, setMetricLoading] = useState(() => {
     const init = {};
@@ -1793,14 +1797,13 @@ function MatchupBattle({ matchup }) {
   };
 
   return (
-    <div className="arena-neon-wrap" style={{ borderRadius: 14, height: "100%" }}>
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", borderRadius: 12, overflow: "hidden", background: "#111" }}>
+    <>
+    <div className="arena-neon-wrap" style={{ borderRadius: 14, paddingBottom: 8 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 0, borderRadius: 12, overflow: "hidden" }}>
       {/* ── Fight Banner ── */}
       <div style={{
-        position: "relative", overflow: "hidden", borderRadius: 0, marginBottom: 0,
-        background: `linear-gradient(110deg, ${matchup.left.color}20 0%, #0e0e0e 35%, #0e0e0e 65%, ${matchup.right.color}20 100%)`,
-        border: "none", borderBottom: "none",
-        boxShadow: `inset 0 0 60px rgba(0,0,0,0.6)`,
+        position: "relative", overflow: "hidden", marginBottom: 0,
+        background: `radial-gradient(ellipse 60% 100% at 0% 50%, ${matchup.left.color}28 0%, transparent 70%), radial-gradient(ellipse 60% 100% at 100% 50%, ${matchup.right.color}28 0%, transparent 70%), #0a0a0a`,
         padding: "8px 20px", flexShrink: 0,
       }}>
         {/* Diagonal slash overlay */}
@@ -1823,7 +1826,10 @@ function MatchupBattle({ matchup }) {
         {/* Fighters */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {/* LEFT */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8 }}>
+          <div
+            onClick={() => onViewProtocol && onViewProtocol(matchup.left.slug)}
+            style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8, cursor: onViewProtocol ? "pointer" : "default" }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               {logos[matchup.left.slug] ? (
                 <img src={logos[matchup.left.slug]} alt="" style={{
@@ -1859,7 +1865,10 @@ function MatchupBattle({ matchup }) {
           </div>
 
           {/* RIGHT */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+          <div
+            onClick={() => onViewProtocol && onViewProtocol(matchup.right.slug)}
+            style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, cursor: onViewProtocol ? "pointer" : "default" }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexDirection: "row-reverse" }}>
               {logos[matchup.right.slug] ? (
                 <img src={logos[matchup.right.slug]} alt="" style={{
@@ -1889,9 +1898,9 @@ function MatchupBattle({ matchup }) {
       {/* ── Metric tabs + Timeframe row ── */}
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "10px 16px", background: "#111",
-        border: "1px solid rgba(255,255,255,0.06)", borderTop: "none", borderBottom: "none",
-        flexWrap: "wrap", gap: 8,
+        padding: "10px 16px", background: "#0e0e0e",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        flexWrap: "wrap", gap: 8, flexShrink: 0,
       }}>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {matchup.metrics.map(m => {
@@ -1968,9 +1977,9 @@ function MatchupBattle({ matchup }) {
       {/* ── Chart ── */}
       <div ref={chartRef} style={{
         background: "#111",
-        border: "1px solid rgba(255,255,255,0.06)", borderTop: "none",
-        borderRadius: "0 0 12px 12px", overflow: "hidden",
-        flex: 1, minHeight: 0, display: "flex", flexDirection: "column",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        overflow: "hidden",
+        height: 380, display: "flex", flexDirection: "column",
       }}>
         {!isLoading && lShare != null && (
           <>
@@ -2000,7 +2009,7 @@ function MatchupBattle({ matchup }) {
         )}
         <div style={{ padding: "6px 8px 0", position: "relative", flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none", zIndex: 1 }}>
-            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.04)", userSelect: "none" }}>FlipIndex</span>
+            <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 15, letterSpacing: 4, textTransform: "uppercase", userSelect: "none", fontStyle: "italic", background: "linear-gradient(90deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.13) 50%, rgba(255,255,255,0.07) 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 8px rgba(255,255,255,0.06))" }}>Flip-Index.xyz</span>
           </div>
           {isLoading ? (
             <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -2039,7 +2048,9 @@ function MatchupBattle({ matchup }) {
             </div>
           )}
         </div>
-      </div>
+      </div>{/* end chartRef */}
+      </div>{/* end inner flex */}
+      </div>{/* end arena-neon-wrap */}
 
       {/* ── Ask Claude panel ── */}
       {showBattleAI && (() => {
@@ -2091,8 +2102,7 @@ function MatchupBattle({ matchup }) {
           </div>
         );
       })()}
-    </div>
-    </div>
+    </>
   );
 }
 
@@ -2297,10 +2307,11 @@ function BattleCard({ matchup, isActive, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        height: isActive ? "100%" : 88, borderRadius: isActive ? 12 : 14, overflow: "hidden", cursor: "pointer",
+        height: 88, borderRadius: isActive ? 12 : 14, overflow: "hidden", cursor: "pointer",
         background: "#111",
         border: isActive ? "none" : `1px solid ${lift ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.07)"}`,
-        transition: "border-color .2s",
+        transform: lift ? "translateY(-3px)" : "translateY(0)",
+        transition: "transform .2s, border-color .2s",
         position: "relative", display: "flex", flexDirection: "column",
         userSelect: "none",
       }}
@@ -2348,7 +2359,7 @@ function BattleCard({ matchup, isActive, onClick }) {
 }
 
 // ─── OneVOneView: renders inside the main arena-bg (no own wrapper) ───────────
-function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId }) {
+function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId, onViewProtocol }) {
   const selectedMatchup = MATCHUPS.find(m => m.id === selectedMatchupId);
 
   return (
@@ -2356,18 +2367,16 @@ function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId }) {
       {/* Fixed header */}
       <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, background: "rgba(10,10,10,0.96)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", borderBottom: "1px solid rgba(255,255,255,0.07)", padding: "0 20px" }}>
         <div style={{ maxWidth: 960, margin: "0 auto", height: 60, display: "flex", alignItems: "center", gap: 16 }}>
-          <div className="arena-neon-back">
-            <button onClick={onBack} style={{ display: "block", background: "#0e0e0e", border: "none", borderRadius: 8, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
+          <button onClick={onBack} style={{ background: "#0e0e0e", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 8, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
               ← Back
             </button>
-          </div>
           <span style={{ fontFamily: "'Orbitron',sans-serif", color: "#e8e8e8", fontSize: 13, fontWeight: 900, letterSpacing: 4 }}>1v1 ARENA</span>
         </div>
       </div>
 
-      <div style={{ height: "calc(100vh - 60px)", display: "flex", flexDirection: "column", overflow: "hidden", padding: "10px 16px 0" }}>
+      <div style={{ paddingTop: 70, paddingBottom: 24, paddingLeft: 16, paddingRight: 16, maxWidth: 960, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
         {/* ── Battle selector ── horizontal scrollable strip */}
-        <div style={{ display: "flex", gap: 8, overflowX: "auto", flexShrink: 0, paddingBottom: 10, scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <div style={{ display: "flex", gap: 10, overflowX: "auto", flexShrink: 0, paddingBottom: 4, paddingTop: 4, scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {MATCHUPS.map(m => (
             <div key={m.id} style={{ flexShrink: 0, width: 158 }}>
               <BattleCard
@@ -2379,10 +2388,7 @@ function OneVOneView({ onBack, selectedMatchupId, setSelectedMatchupId }) {
           ))}
         </div>
 
-        {/* ── Selected battle ── fills remaining height */}
-        <div style={{ flex: 1, minHeight: 0, paddingBottom: 10 }}>
-          {selectedMatchup && <MatchupBattle key={selectedMatchup.id} matchup={selectedMatchup} />}
-        </div>
+          {selectedMatchup && <MatchupBattle key={selectedMatchup.id} matchup={selectedMatchup} onViewProtocol={onViewProtocol} />}
       </div>
     </>
   );
@@ -2618,6 +2624,7 @@ export default function ProtocolWars() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchProtocolSlug, setSearchProtocolSlug] = useState(null);
+  const [prevView, setPrevView] = useState("main");
   const searchRef = useRef(null);
   // Close search dropdown on outside click
   useEffect(() => {
@@ -3196,6 +3203,7 @@ export default function ProtocolWars() {
           onBack={() => { setView("main"); window.scrollTo(0, 0); }}
           selectedMatchupId={selectedMatchupId}
           setSelectedMatchupId={setSelectedMatchupId}
+          onViewProtocol={(slug) => { setPrevView("1v1"); setSearchProtocolSlug(slug); setView("protocol"); }}
         />
       ) : (
       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -3365,7 +3373,7 @@ export default function ProtocolWars() {
             slug={searchProtocolSlug}
             protocolMeta={protocolMeta}
             protocolsByParent={protocolsByParent}
-            onBack={() => { setView("main"); setSearchProtocolSlug(null); setSearchQuery(""); }}
+            onBack={() => { setView(prevView); setSearchProtocolSlug(null); setSearchQuery(""); setPrevView("main"); }}
           />
         ) : (
         <div style={{ flex: 1, padding: "24px 28px", minWidth: 0 }}>
@@ -3429,6 +3437,7 @@ export default function ProtocolWars() {
                   isLeading={p.slug === leadingSlug}
                   chartData={chartData}
                   dataType={currentDataType}
+                  onClick={() => { setPrevView("main"); setSearchProtocolSlug(p.slug); setView("protocol"); }}
                 />
               ))}
           </div>
@@ -3585,10 +3594,12 @@ export default function ProtocolWars() {
                 pointerEvents: "none", zIndex: 1,
               }}>
                 <span style={{
-                  fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 13, letterSpacing: 2,
-                  textTransform: "uppercase", color: "rgba(255,255,255,0.04)",
-                  userSelect: "none",
-                }}>Flippening</span>
+                  fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: 15, letterSpacing: 4,
+                  textTransform: "uppercase", userSelect: "none", fontStyle: "italic",
+                  background: "linear-gradient(90deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.13) 50%, rgba(255,255,255,0.07) 100%)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 0 8px rgba(255,255,255,0.06))",
+                }}>Flip-Index.xyz</span>
               </div>
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={displayData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
