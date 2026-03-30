@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import RevenueCorrelation from "./RevenueCorrelation.jsx";
 
 // ─── Brand colors from DeFiLlama logo backgrounds ────────────────────────────
 const PROTOCOL_BRAND_COLORS = {
@@ -351,6 +352,12 @@ const SEGMENTS = {
     dataType: "aggregatorVolume",
     rivalries: [],
     defaultSlugs: ["1inch", "jupiter-aggregator", "cowswap", "kyberswap-aggregator", "odos"],
+  },
+  Revenue: {
+    label: "Revenue",
+    dataType: "revenue",
+    rivalries: [],
+    defaultSlugs: [],
   },
 };
 
@@ -3135,6 +3142,11 @@ export default function ProtocolWars() {
           .map(p => p.slug);
         setSlugs(top5);
       }).catch(() => setSlugs([]));
+    } else if (seg === "Revenue") {
+      setDexChain(null);
+      setLendingChain(null);
+      setSlugs([]);
+      // Revenue view is self-contained — no slug-based fetching needed
     } else {
       setDexChain(null);
       setLendingChain(null);
@@ -3458,7 +3470,7 @@ export default function ProtocolWars() {
           <div style={{ flex: 1, overflowY: "auto", padding: "10px 0 16px 12px", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
             {[
               { group: "TRADING",        items: ["DEX", "Aggregators", "Perps"] },
-              { group: "FINANCE",        items: ["Lending", "Liquid Staking", "Stablecoins", "RWA", "ETF", "DAT"] },
+              { group: "FINANCE",        items: ["Lending", "Liquid Staking", "Stablecoins", "RWA", "ETF", "DAT", "Revenue"] },
               { group: "INFRASTRUCTURE", items: ["Blockchains", "Oracles"] },
               { group: "CONSUMER",       items: ["Consumer", "Launchpads", "TCG"] },
             ].map(({ group, items }) => (
@@ -3503,6 +3515,22 @@ export default function ProtocolWars() {
 
         {/* ── Main area ── */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        {activeSegment === "Revenue" ? (
+          <>
+          <RevenueCorrelation />
+          <footer style={{
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            padding: "20px 28px",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            flexShrink: 0,
+          }}>
+            <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10 }}>
+              Data: DeFiLlama · CoinGecko • Not financial advice • {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+            </div>
+          </footer>
+          </>
+        ) : (
+        <>
         <div style={{ flex: 1, padding: "24px 28px", minWidth: 0 }}>
 
         {/* ── Chain Selector (DEX and Lending) ── */}
@@ -4038,6 +4066,8 @@ export default function ProtocolWars() {
             Data: DeFiLlama • Not financial advice • {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </div>
         </footer>
+        </>
+        )}
         </div>
       </div>
       </div>
